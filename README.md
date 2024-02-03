@@ -1,8 +1,8 @@
 # ece452-group2
 
-Group 2:
+Group 2
 
-Project Title:
+Project Title: GroupGains
 
 Group Members: 
 - Josh Kurien, joshuakurien, j2kurien
