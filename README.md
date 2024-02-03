@@ -5,8 +5,8 @@ Group 2:
 Project Title:
 
 Group Members: 
-- Josh Kurien, joshuakurien
-- Jessica Wormald, jessicawormald
-- Ramonito Jr Copreros, RCopJr
-- Samuel Diaz Sevillano, sedsclassic
-- Alex Eliasmith, WAEliasmith
+- Josh Kurien, joshuakurien, j2kurien
+- Jessica Wormald, jessicawormald, jwormald
+- Ramonito Jr Copreros, RCopJr, rjcoprer
+- Samuel Diaz Sevillano, sedsclassic, sediazse
+- Alex Eliasmith, WAEliasmith, weliasmi
