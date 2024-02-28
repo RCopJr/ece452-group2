@@ -1,13 +1,13 @@
-package com.example.groupgains.ui.record
+package com.example.groupgains.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class RecordViewModel : ViewModel() {
+class ProfileViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is record Fragment"
+        value = "This is profile Fragment"
     }
     val text: LiveData<String> = _text
 }
