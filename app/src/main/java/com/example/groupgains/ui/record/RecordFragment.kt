@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.databinding.FragmentRecordBinding
+import android.content.Intent
 
 class RecordFragment : Fragment() {
 
@@ -31,6 +32,13 @@ class RecordFragment : Fragment() {
         val textView: TextView = binding.textRecord
         recordViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
+        }
+
+        val buttonID = binding.recordWorkoutBtn
+
+        buttonID.setOnClickListener {
+            val intent = Intent(requireContext(), RecordActivity::class.java)
+            startActivity(intent)
         }
         return root
     }
