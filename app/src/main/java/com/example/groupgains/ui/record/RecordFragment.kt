@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.groupgains.databinding.FragmentRecordBinding
 
 class RecordFragment : Fragment() {
@@ -27,6 +28,17 @@ class RecordFragment : Fragment() {
 
         _binding = FragmentRecordBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val exerciseList = arrayListOf<Exercise>(
+                Exercise("Exercise 1"),
+                Exercise("Exercise 2")
+        )
+
+        val adapter = ExercisesAdapter(exerciseList)
+
+        binding.rvExercises.adapter = adapter
+        binding.rvExercises.layoutManager = LinearLayoutManager(this.context)
+
 
         val textView: TextView = binding.textRecord
         recordViewModel.text.observe(viewLifecycleOwner) {
