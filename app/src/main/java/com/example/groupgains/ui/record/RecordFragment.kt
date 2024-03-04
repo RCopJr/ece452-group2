@@ -30,8 +30,10 @@ class RecordFragment : Fragment() {
         val root: View = binding.root
 
         val exerciseList = arrayListOf<Exercise>(
-                Exercise("Exercise 1"),
-                Exercise("Exercise 2")
+            Exercise("Bench Press"),
+            Exercise("Shoulder Press"),
+            Exercise("Bicep Curls"),
+            Exercise("Lateral Raises")
         )
 
         val adapter = ExercisesAdapter(exerciseList)
