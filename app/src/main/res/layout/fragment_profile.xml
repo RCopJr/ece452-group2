@@ -19,4 +19,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- TableRow elements will be added here programmatically -->
+    </TableLayout>
+
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
