@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.groupgains.R
 import com.example.groupgains.databinding.FragmentRecordBinding
 
 class RecordFragment : Fragment() {
@@ -28,10 +29,22 @@ class RecordFragment : Fragment() {
         _binding = FragmentRecordBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textRecord
-        recordViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val record1 = RecordOne()
+        val button = binding.button2
+
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.frame, record1)
+            commit()
         }
+
+        button.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.frame, record1)
+                commit()
+            }
+        }
+
+
         return root
     }
 
