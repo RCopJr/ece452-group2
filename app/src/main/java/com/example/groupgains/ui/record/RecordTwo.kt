@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.groupgains.R
 import com.example.groupgains.databinding.Record2Binding
 
@@ -46,7 +47,6 @@ class RecordTwo: Fragment(R.layout.record_2) {
             handler.removeCallbacks(runnable)
             isRunning = false
             binding.start.isEnabled = true
-            binding.start.text = "Resume"
             binding.stop.isEnabled = false
             binding.reset.isEnabled = true
         }
@@ -71,6 +71,18 @@ class RecordTwo: Fragment(R.layout.record_2) {
         _binding = Record2Binding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val exerciseList = arrayListOf<Exercise>(
+                Exercise("Bench Press"),
+                Exercise("Shoulder Press"),
+                Exercise("Bicep Curls"),
+                Exercise("Lateral Raises")
+        )
+
+        val adapter = ExercisesAdapter(exerciseList)
+
+        binding.rvExercises.adapter = adapter
+        binding.rvExercises.layoutManager = LinearLayoutManager(this.context)
+
       //  val butt = binding.button22
 
         val rec3 = RecordThree()
@@ -80,6 +92,10 @@ class RecordTwo: Fragment(R.layout.record_2) {
         }
         binding.stop.setOnClickListener {
             stopTimer()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.frame, rec3)
+                commit()
+            }
         }
         binding.reset.setOnClickListener {
             resetTimer()
