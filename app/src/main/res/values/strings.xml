@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Group Gains</string>
+    <string name="title_home">Home</string>
+    <string name="title_create">Create</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_record">Record</string>
+</resources>
