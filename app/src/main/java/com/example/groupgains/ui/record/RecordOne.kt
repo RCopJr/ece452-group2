@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.FragmentRecordBinding
@@ -29,10 +31,38 @@ class RecordOne: Fragment() {
         buttonContain.setPadding(150,0,0,0)
 
 
-        val rec2 = RecordTwo()
-        addButtons(5, buttonContain, rec2)
+//        val rec2 = RecordTwo()
+//        addButtons(5, buttonContain, rec2)
 
         return root
+    }
+
+    // Using the activityViewModels() Kotlin property delegate from the
+    // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
+    private val viewModel: RecordViewModel by activityViewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.text.observe(viewLifecycleOwner, Observer { text ->
+            val rec2 = RecordTwo()
+            val buttonContain: LinearLayout = binding.buttonContainer
+            buttonContain.setPadding(150,0,0,0)
+            val workouts = listOf<String>(text, text, text)
+            for (i in 1..3){
+                val button = Button(requireContext())
+                button.text = workouts[i-1]
+
+                val params = ViewGroup.LayoutParams(750, 250)
+                button.layoutParams = params
+
+                buttonContain.addView(button)
+
+                button.setOnClickListener {
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.frame, rec2)
+                        commit()
+                    }
+                }
+            }
+        })
     }
 
     private fun addButtons(data: Int, container: LinearLayout, page: RecordTwo) {
