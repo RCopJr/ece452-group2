@@ -21,13 +21,35 @@ class RecordViewModel : ViewModel() {
     val workouts = MutableLiveData<List<Workout>>().apply {
         value = listOf(
             Workout("Workout 1", mutableListOf(
-                Exercise("Exercise 1", 1),
-                Exercise("Exercise 2", 2)
+                    Exercise("Bench Press", 1, mutableListOf(
+                        Set("Working Set 1"),
+                        Set("Working Set 2"),
+                        Set("Drop Set 1"),
+                        Set("Drop Set 2")
+                        )
+                    ),
+                    Exercise("Shoulder Press", 2, mutableListOf(
+                        Set("Working Set 1"),
+                        Set("Working Set 2"),
+                        Set("Drop Set 1"),
+                        Set("Drop Set 2")
+                        )
+                    )
                 )
             ),
             Workout("Workout 2", mutableListOf(
-                Exercise("Exercise 3", 3),
-                Exercise("Exercise 4", 4)
+                    Exercise("Leg Press", 1, mutableListOf(
+                        Set("Working Set 1"),
+                        Set("Working Set 2"),
+                        Set("Drop Set 1"),
+                        Set("Drop Set 2")
+                        )
+                    ),
+                    Exercise("Hamstring Curls", 2, mutableListOf(
+                        Set("Working Set 1"),
+                        Set("Working Set 2"),
+                        )
+                    )
                 )
             ),
         )

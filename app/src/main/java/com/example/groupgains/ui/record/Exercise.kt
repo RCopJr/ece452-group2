@@ -4,4 +4,5 @@ package com.example.groupgains.ui.record
 data class Exercise(
         val title: String = "No Name",
         val numSets: Int = 0,
+        val sets: MutableList<Set> = mutableListOf<Set>()
 )
