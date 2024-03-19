@@ -113,12 +113,12 @@ class RecordTwo: Fragment(R.layout.record_2) {
     // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.text.observe(viewLifecycleOwner, Observer { text ->
+        viewModel.selectedExercise.observe(viewLifecycleOwner, Observer { selectedExercise ->
             val exerciseList = arrayListOf<Exercise>(
-                Exercise(text),
-                Exercise(text),
-                Exercise(text),
-                Exercise(text)
+                Exercise(selectedExercise.title),
+                Exercise(selectedExercise.title),
+                Exercise(selectedExercise.title),
+                Exercise(selectedExercise.title)
             )
 
             val adapter = ExercisesAdapter(exerciseList)

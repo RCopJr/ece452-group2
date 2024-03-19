@@ -41,14 +41,18 @@ class RecordOne: Fragment() {
     // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.text.observe(viewLifecycleOwner, Observer { text ->
-            val rec2 = RecordTwo()
-            val buttonContain: LinearLayout = binding.buttonContainer
-            buttonContain.setPadding(150,0,0,0)
-            val workouts = listOf<String>(text, text, text)
-            for (i in 1..3){
+        val rec2 = RecordTwo()
+        val buttonContain: LinearLayout = binding.buttonContainer
+        buttonContain.setPadding(150,0,0,0)
+
+        viewModel.exercises.observe(viewLifecycleOwner, Observer { exercises ->
+            val workouts = mutableListOf<String>()
+            for (exercise in exercises) {
+                workouts.add(exercise.title)
+            }
+            for (i in exercises.indices){
                 val button = Button(requireContext())
-                button.text = workouts[i-1]
+                button.text = workouts[i]
 
                 val params = ViewGroup.LayoutParams(750, 250)
                 button.layoutParams = params
@@ -56,6 +60,7 @@ class RecordOne: Fragment() {
                 buttonContain.addView(button)
 
                 button.setOnClickListener {
+                    onExerciseClicked(exercises[i])
                     parentFragmentManager.beginTransaction().apply {
                         replace(R.id.frame, rec2)
                         commit()
@@ -63,6 +68,10 @@ class RecordOne: Fragment() {
                 }
             }
         })
+    }
+
+    private fun onExerciseClicked (exercise: Exercise) {
+        viewModel.selectExercise(exercise)
     }
 
     private fun addButtons(data: Int, container: LinearLayout, page: RecordTwo) {
