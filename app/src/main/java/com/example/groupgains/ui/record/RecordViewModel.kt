@@ -11,15 +11,26 @@ class RecordViewModel : ViewModel() {
     }
     val text: LiveData<String> = _text
 
-    private val mutableSelectedExercise = MutableLiveData<Exercise>()
-    val selectedExercise: LiveData<Exercise> get() = mutableSelectedExercise
+    private val mutableSelectedWorkout = MutableLiveData<Workout>()
+    val selectedWorkout: LiveData<Workout> get() = mutableSelectedWorkout
 
-    fun selectExercise(exercise: Exercise) {
-        mutableSelectedExercise.value = exercise
+    fun selectWorkout(workout: Workout) {
+        mutableSelectedWorkout.value = workout
     }
 
-    val exercises = MutableLiveData<List<Exercise>>().apply {
-        value = listOf(Exercise("test 1"), Exercise("test 2"), Exercise("test 3"))
+    val workouts = MutableLiveData<List<Workout>>().apply {
+        value = listOf(
+            Workout("Workout 1", mutableListOf(
+                Exercise("Exercise 1", 1),
+                Exercise("Exercise 2", 2)
+                )
+            ),
+            Workout("Workout 2", mutableListOf(
+                Exercise("Exercise 3", 3),
+                Exercise("Exercise 4", 4)
+                )
+            ),
+        )
     }
 
 }

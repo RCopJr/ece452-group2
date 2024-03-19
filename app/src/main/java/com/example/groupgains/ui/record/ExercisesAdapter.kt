@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
 
-class ExercisesAdapter(private val exerciseList : ArrayList<Exercise>) : RecyclerView.Adapter<ExercisesAdapter.MyViewHolder>() {
+class ExercisesAdapter(private val exerciseList : MutableList<Exercise>) : RecyclerView.Adapter<ExercisesAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val exerciseTitle: TextView
 

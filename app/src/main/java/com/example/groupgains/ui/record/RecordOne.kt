@@ -45,12 +45,12 @@ class RecordOne: Fragment() {
         val buttonContain: LinearLayout = binding.buttonContainer
         buttonContain.setPadding(150,0,0,0)
 
-        viewModel.exercises.observe(viewLifecycleOwner, Observer { exercises ->
+        viewModel.workouts.observe(viewLifecycleOwner, Observer { data ->
             val workouts = mutableListOf<String>()
-            for (exercise in exercises) {
-                workouts.add(exercise.title)
+            for (workout in data) {
+                workouts.add(workout.title)
             }
-            for (i in exercises.indices){
+            for (i in workouts.indices){
                 val button = Button(requireContext())
                 button.text = workouts[i]
 
@@ -60,7 +60,7 @@ class RecordOne: Fragment() {
                 buttonContain.addView(button)
 
                 button.setOnClickListener {
-                    onExerciseClicked(exercises[i])
+                    onWorkoutClicked(data[i])
                     parentFragmentManager.beginTransaction().apply {
                         replace(R.id.frame, rec2)
                         commit()
@@ -70,8 +70,8 @@ class RecordOne: Fragment() {
         })
     }
 
-    private fun onExerciseClicked (exercise: Exercise) {
-        viewModel.selectExercise(exercise)
+    private fun onWorkoutClicked (workout: Workout) {
+        viewModel.selectWorkout(workout)
     }
 
     private fun addButtons(data: Int, container: LinearLayout, page: RecordTwo) {
