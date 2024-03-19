@@ -15,6 +15,7 @@ import com.example.groupgains.R
 import com.example.groupgains.databinding.Record1Binding
 import com.example.groupgains.databinding.Record3Binding
 
+//TODO: Create RecyclerView for Exercises in results page
 class RecordThree: Fragment() {
     private var _binding: Record3Binding? = null
     private val binding get() = _binding!!
