@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -28,8 +29,6 @@ class RecordOne: Fragment() {
         _binding = Record1Binding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val buttonContain: LinearLayout = binding.buttonContainer
-        buttonContain.setPadding(150,0,0,0)
 
 
 //        val rec2 = RecordTwo()
@@ -43,25 +42,29 @@ class RecordOne: Fragment() {
     private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val rec2 = RecordTwo()
-        val buttonContain: LinearLayout = binding.buttonContainer
-        buttonContain.setPadding(150,0,0,0)
+        val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
-        viewModel.workouts.observe(viewLifecycleOwner, Observer { data ->
-            val workouts = mutableListOf<String>()
-            for (workout in data) {
-                workouts.add(workout.title)
-            }
-            for (i in workouts.indices){
-                val button = Button(requireContext())
-                button.text = workouts[i]
+        viewModel.workouts.observe(viewLifecycleOwner, Observer { workouts ->
 
-                val params = ViewGroup.LayoutParams(750, 250)
-                button.layoutParams = params
+            for (workout in workouts) {
 
-                buttonContain.addView(button)
+                val workoutItem = LayoutInflater.from(requireContext()).inflate(R.layout.workout_item, null)
+                val workoutTitle = workoutItem.findViewById<TextView>(R.id.workoutTitle)
+                workoutTitle.text = workout.title
 
-                button.setOnClickListener {
-                    onWorkoutClicked(data[i])
+                var exerciseDescription = ""
+                for (exercise in workout.exercises) {
+                    exerciseDescription = exerciseDescription + exercise.title + " x " + exercise.numSets + ", "
+                }
+                exerciseDescription = exerciseDescription.dropLast(2)
+                val workoutExerciseDescription = workoutItem.findViewById<TextView>(R.id.workoutExerciseDesc)
+                workoutExerciseDescription.text = exerciseDescription
+                workoutLinearLayout.addView(workoutItem, workoutLinearLayout.childCount)
+                Log.d("TEST THIS CLICK", "THIS WAS CLICKED")
+
+                workoutItem.setOnClickListener {
+                    Log.d("TEST THIS CLICK", "THIS WAS CLICKED")
+                    onWorkoutClicked(workout)
                     parentFragmentManager.beginTransaction().apply {
                         replace(R.id.frame, rec2)
                         commit()
