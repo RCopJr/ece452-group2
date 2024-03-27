@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.groupgains.databinding.ActivityMainBinding
 import com.example.groupgains.ui.home.HomeFragment
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,12 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val db = Firebase.firestore;
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
         auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser != null) {
@@ -36,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.btLogin).setOnClickListener {
 
-            var email = findViewById<EditText>(R.id.etEmail).text.toString().trim()
-            var password = findViewById<EditText>(R.id.etPassword).text.toString()
+            val email = findViewById<EditText>(R.id.etEmail).text.toString().trim()
+            val password = findViewById<EditText>(R.id.etPassword).text.toString()
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
@@ -55,8 +47,8 @@ class MainActivity : AppCompatActivity() {
         // register user
         findViewById<MaterialButton>(R.id.btRegister).setOnClickListener {
 
-            var email = findViewById<EditText>(R.id.etEmail).text.toString().trim()
-            var password = findViewById<EditText>(R.id.etPassword).text.toString()
+            val email = findViewById<EditText>(R.id.etEmail).text.toString().trim()
+            val password = findViewById<EditText>(R.id.etPassword).text.toString()
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {

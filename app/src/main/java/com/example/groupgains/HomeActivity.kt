@@ -72,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController);
+        navView.setupWithNavController(navController)
     }
 
     fun goToLogin() {
@@ -82,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
 
     fun loadUserData(userID: String) {
 
-        var userRef = db.collection("users")
+        val userRef = db.collection("users")
         userRef.whereEqualTo("user_id", userID)
             .get()
             .addOnSuccessListener {
@@ -96,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
 
     fun loadWorkoutData(userID: String) {
 
-        var workoutsRef = db.collection("workouts")
+        val workoutsRef = db.collection("workouts")
         workoutsRef.whereEqualTo("user_id", userID)
             .get()
             .addOnSuccessListener {
