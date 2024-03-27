@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.groupgains.R
 import com.example.groupgains.databinding.FragmentCreateBinding
 
 class CreateFragment : Fragment() {
@@ -28,10 +29,13 @@ class CreateFragment : Fragment() {
         _binding = FragmentCreateBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textCreate
-        createViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val create1 = CreateOne()
+
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.frame, create1)
+            commit()
         }
+
         return root
     }
 

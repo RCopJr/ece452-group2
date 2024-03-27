@@ -25,6 +25,16 @@ class RecordThree: Fragment() {
         _binding = Record3Binding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+        val button = binding.button2
+        val record1 = RecordOne()
+        button.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.frame, record1)
+                commit()
+            }
+        }
+
         val buttonContain: LinearLayout = binding.buttonContainer
         buttonContain.setPadding(150,0,0,0)
 

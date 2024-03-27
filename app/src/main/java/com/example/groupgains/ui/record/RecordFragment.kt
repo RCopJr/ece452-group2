@@ -30,20 +30,11 @@ class RecordFragment : Fragment() {
         val root: View = binding.root
 
         val record1 = RecordOne()
-        val button = binding.button2
 
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.frame, record1)
             commit()
         }
-
-        button.setOnClickListener {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.frame, record1)
-                commit()
-            }
-        }
-
 
         return root
     }
