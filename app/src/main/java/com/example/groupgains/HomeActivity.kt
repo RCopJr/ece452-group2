@@ -23,9 +23,10 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
 
         auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
+        db = FirebaseFirestore.getInstance()
         val user = hashMapOf(
             "first" to "Ada",
             "last" to "Lovelace",
@@ -37,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
         }
         val currentUser = auth.currentUser
         loadUserData(currentUser!!.uid.toString())
-        loadWorkoutData(currentUser.uid.toString())
+        //loadWorkoutData(currentUser.uid.toString())
 
         binding.btnLogout.setOnClickListener {
             //for logout
@@ -55,7 +56,7 @@ class HomeActivity : AppCompatActivity() {
                 Log.w("UserInsertTest", "Error adding document", e)
             }
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        //binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
@@ -81,27 +82,26 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadUserData(userID: String) {
-
         val userRef = db.collection("users")
-        userRef.whereEqualTo("user_id", userID)
+        userRef.document(userID)
             .get()
-            .addOnSuccessListener {
-                if (it.isEmpty) {
+            .addOnSuccessListener { user ->
+                Log.d("USER ID FOUND AND SUCCESS", "${user.data}")
+                if (!user.exists()) {
                     Toast.makeText(this@HomeActivity, "No User Found", Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
-
             }
     }
 
-    fun loadWorkoutData(userID: String) {
+    fun loadWorkoutData(workoutID: String) {
 
         val workoutsRef = db.collection("workouts")
-        workoutsRef.whereEqualTo("user_id", userID)
+        workoutsRef.document(workoutID)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    Toast.makeText(this@HomeActivity, "No User Found", Toast.LENGTH_SHORT).show()
+                if (!it.exists()) {
+                    Toast.makeText(this@HomeActivity, "No Workout Found", Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
 
