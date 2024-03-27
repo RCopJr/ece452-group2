@@ -13,9 +13,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <LinearLayout
-            android:id="@+id/buttonContainer"
+            android:id="@+id/workoutLinearLayout"
             android:layout_width="409dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

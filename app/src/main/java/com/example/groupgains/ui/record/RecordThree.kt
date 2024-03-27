@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.groupgains.R
 import com.example.groupgains.databinding.Record1Binding
 import com.example.groupgains.databinding.Record3Binding
 
+//TODO: Create RecyclerView for Exercises in results page
 class RecordThree: Fragment() {
     private var _binding: Record3Binding? = null
     private val binding get() = _binding!!
@@ -38,23 +42,47 @@ class RecordThree: Fragment() {
         val buttonContain: LinearLayout = binding.buttonContainer
         buttonContain.setPadding(150,0,0,0)
 
-        val ex1 = analysisDisplay()
-        val ex2 = analysisDisplay(exerciseName = "Pull-ups")
-        val ex3 = analysisDisplay(exerciseName = "Squat")
-        val ex4 = analysisDisplay(exerciseName = "OHP", numberOfReps = 6, timeElapsed = 32)
-        val ex5 = analysisDisplay(exerciseName = "Lateral raises", numberOfReps = 12, timeElapsed = 45)
-        val ex6 = analysisDisplay(exerciseName = "Leg Extensions")
-        val ex7 = analysisDisplay(exerciseName = "Bicep Curls")
-        val data: List<analysisDisplay> =  listOf(ex1, ex2, ex3, ex4, ex5, ex6, ex7)
+//        val ex1 = analysisDisplay()
+//        val ex2 = analysisDisplay(exerciseName = "Pull-ups")
+//        val ex3 = analysisDisplay(exerciseName = "Squat")
+//        val ex4 = analysisDisplay(exerciseName = "OHP", numberOfReps = 6, timeElapsed = 32)
+//        val ex5 = analysisDisplay(exerciseName = "Lateral raises", numberOfReps = 12, timeElapsed = 45)
+//        val ex6 = analysisDisplay(exerciseName = "Leg Extensions")
+//        val ex7 = analysisDisplay(exerciseName = "Bicep Curls")
+//        val data: List<analysisDisplay> =  listOf(ex1, ex2, ex3, ex4, ex5, ex6, ex7)
+//
+////        val data =  mutableListOf<analysisDisplay>()
+////        for (i in 0..10){
+////            data.add(analysisDisplay())
+////        }
+//
+//        addButtons(data, buttonContain)
+
+        return root
+    }
+
+    private val viewModel: RecordViewModel by activityViewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.text.observe(viewLifecycleOwner, Observer { text ->
+            val buttonContain: LinearLayout = binding.buttonContainer
+            buttonContain.setPadding(150,0,0,0)
+
+            val ex1 = analysisDisplay()
+            val ex2 = analysisDisplay(exerciseName = text)
+            val ex3 = analysisDisplay(exerciseName = text)
+            val ex4 = analysisDisplay(exerciseName = text, numberOfReps = 6, timeElapsed = 32)
+            val ex5 = analysisDisplay(exerciseName = text, numberOfReps = 12, timeElapsed = 45)
+            val ex6 = analysisDisplay(exerciseName = text)
+            val ex7 = analysisDisplay(exerciseName = text)
+            val data: List<analysisDisplay> =  listOf(ex1, ex2, ex3, ex4, ex5, ex6, ex7)
 
 //        val data =  mutableListOf<analysisDisplay>()
 //        for (i in 0..10){
 //            data.add(analysisDisplay())
 //        }
 
-        addButtons(data, buttonContain)
-
-        return root
+            addButtons(data, buttonContain)
+        })
     }
 
     private fun addButtons(data: List<analysisDisplay>, container: LinearLayout) {
