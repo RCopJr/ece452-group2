@@ -75,8 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToHome() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, HomeFragment())
-        transaction.commit()
+        startActivity(Intent(this@MainActivity, HomeFragment::class.java))
+        finish()
     }
 }
