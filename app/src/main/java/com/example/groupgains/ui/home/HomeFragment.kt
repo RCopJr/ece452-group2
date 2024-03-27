@@ -1,6 +1,7 @@
 package com.example.groupgains.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.FragmentHomeBinding
-import com.example.groupgains.ui.record.RecordTwo
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class HomeFragment : Fragment() {
 
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val rec2 = RecordTwo()
+        val db = Firebase.firestore;
         val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
         viewModel.workouts.observe(viewLifecycleOwner, Observer { workouts ->
@@ -62,10 +64,20 @@ class HomeFragment : Fragment() {
                 workoutLinearLayout.addView(workoutItem, workoutLinearLayout.childCount)
 
                 workoutItem.setOnClickListener {
-                    parentFragmentManager.beginTransaction().apply {
-                        replace(R.id.frame, rec2)
-                        commit()
-                    }
+//                    parentFragmentManager.beginTransaction().apply {
+//                        replace(R.id.frame, rec2)
+//                        commit()
+//                    }
+                    db.collection("workouts")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                Log.d("User GET TEST", "${document.id} => ${document.data}")
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.w("USER GET ERROR", "Error getting documents.", exception)
+                        }
                 }
             }
         })

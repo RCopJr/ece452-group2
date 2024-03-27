@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val db = Firebase.firestore;
+        
+
         val user = hashMapOf(
             "first" to "Ada",
             "last" to "Lovelace",
@@ -27,14 +29,14 @@ class MainActivity : AppCompatActivity() {
         )
 
         // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d("UserInsertTest", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("UserInsertTest", "Error adding document", e)
-            }
+//        db.collection("users")
+//            .add(user)
+//            .addOnSuccessListener { documentReference ->
+//                Log.d("UserInsertTest", "DocumentSnapshot added with ID: ${documentReference.id}")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.w("UserInsertTest", "Error adding document", e)
+//            }
 
 
         binding = ActivityMainBinding.inflate(layoutInflater)
