@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
         // register user
         findViewById<MaterialButton>(R.id.btRegister).setOnClickListener {
 
