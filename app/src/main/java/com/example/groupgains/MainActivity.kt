@@ -9,12 +9,16 @@ import com.example.groupgains.databinding.ActivityMainBinding
 import com.example.groupgains.ui.home.HomeFragment
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import android.util.Log
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var auth: FirebaseAuth
+    lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
         if (auth.currentUser != null) {
@@ -63,6 +68,11 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener {
 
                         if (it.isSuccessful) {
+                            val userId = it.result?.user?.uid
+                            if (userId != null) {
+                                addUserToCollection(userId)
+                            }
+                            Toast.makeText(this@MainActivity, "User successfully created with ID: $userId", Toast.LENGTH_SHORT).show()
                             Toast.makeText(this@MainActivity, "User successfully created", Toast.LENGTH_SHORT).show()
                             goToHome()
                         } else {
@@ -77,5 +87,27 @@ class MainActivity : AppCompatActivity() {
     private fun goToHome() {
         startActivity(Intent(this@MainActivity, HomeActivity::class.java))
         finish()
+    }
+
+
+    private fun addUserToCollection(userID: String) {
+        val userRef = db.collection("users")
+
+        // Create a new user with a first and last name, and the user ID
+        val newUser = hashMapOf(
+            "first" to "First Name",
+            "last" to "Last Name",
+            "user_id" to userID
+        )
+
+        // Add a new document with an auto-generated ID
+        userRef.add(newUser)
+            .addOnSuccessListener { documentReference ->
+                Log.d("RegisterUser", "User successfully written! ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w("RegisterUser", "Error writing user", e)
+            }
+        
     }
 }
