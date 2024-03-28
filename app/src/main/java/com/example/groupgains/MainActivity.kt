@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToHome() {
-        startActivity(Intent(this@MainActivity, HomeFragment::class.java))
+        startActivity(Intent(this@MainActivity, HomeActivity::class.java))
         finish()
     }
 }
