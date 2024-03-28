@@ -27,11 +27,6 @@ class HomeActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
         auth = FirebaseAuth.getInstance()
         if (auth.currentUser == null) {
             goToLogin()
@@ -45,16 +40,6 @@ class HomeActivity : AppCompatActivity() {
             auth.signOut()
             goToLogin()
         }
-
-        // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d("UserInsertTest", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("UserInsertTest", "Error adding document", e)
-            }
 
         //binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
