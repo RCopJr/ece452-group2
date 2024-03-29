@@ -15,11 +15,11 @@
         android:id="@+id/navigation_record"
         android:name="com.example.groupgains.ui.record.RecordFragment"
         android:label="@string/title_record"
-        tools:layout="@layout/fragment_create" />
+        tools:layout="@layout/activity_create" />
 
-    <fragment
+    <activity
         android:id="@+id/navigation_create"
-        android:name="com.example.groupgains.ui.create.CreateFragment"
+        android:name="com.example.groupgains.ui.create.CreateActivity"
         android:label="@string/title_create"
         tools:layout="@layout/fragment_create" />
 
