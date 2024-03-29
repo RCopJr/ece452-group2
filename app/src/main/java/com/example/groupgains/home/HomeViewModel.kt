@@ -5,7 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.example.groupgains.main.MainActivity
+import com.example.groupgains.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun goToLogin(context: Activity) {
-        context.startActivity(Intent(context, MainActivity::class.java))
+        context.startActivity(Intent(context, LoginActivity::class.java))
         context.finish()
     }
 

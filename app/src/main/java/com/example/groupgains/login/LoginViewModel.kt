@@ -1,7 +1,6 @@
-package com.example.groupgains.main
+package com.example.groupgains.login
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -10,11 +9,10 @@ import com.example.groupgains.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor(): ViewModel() {
 
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
