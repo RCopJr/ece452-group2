@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityHomeBinding
 import com.example.groupgains.ui.create.CreateActivity
+import com.example.groupgains.ui.record.RecordActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,6 +46,10 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_create -> {
                     startActivity(Intent(this, CreateActivity::class.java))
+                    true
+                }
+                R.id.navigation_record -> {
+                    startActivity(Intent(this, RecordActivity::class.java))
                     true
                 }
                 else -> false

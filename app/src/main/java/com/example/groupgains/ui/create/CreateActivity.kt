@@ -10,6 +10,7 @@ import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityCreateBinding
 import com.example.groupgains.databinding.CreateWorkoutListBinding
 import com.example.groupgains.home.HomeActivity
+import com.example.groupgains.ui.record.RecordActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class CreateActivity: AppCompatActivity() {
@@ -29,6 +30,10 @@ class CreateActivity: AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, HomeActivity::class.java))
+                    true
+                }
+                R.id.navigation_record -> {
+                    startActivity(Intent(this, RecordActivity::class.java))
                     true
                 }
                 else -> false
