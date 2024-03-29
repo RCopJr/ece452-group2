@@ -1,15 +1,12 @@
 package com.example.groupgains.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.groupgains.main.MainActivity
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
