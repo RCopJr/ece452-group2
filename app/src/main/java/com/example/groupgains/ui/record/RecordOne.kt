@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
-import com.example.groupgains.databinding.FragmentRecordBinding
 import com.example.groupgains.databinding.Record1Binding
 
 class RecordOne: Fragment() {
