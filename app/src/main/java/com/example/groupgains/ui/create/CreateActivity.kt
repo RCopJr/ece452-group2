@@ -42,7 +42,7 @@ class CreateActivity: AppCompatActivity() {
 
         val contain: LinearLayout = binding.workoutsContainer
 
-        addList(21, contain, layoutInflater)
+//        addList(21, contain, layoutInflater)
 
         binding.buttonNew.setOnClickListener {
             viewModel.goToCreateTwo(this)
