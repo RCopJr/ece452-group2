@@ -151,7 +151,24 @@ class CreateViewModel @Inject constructor(): ViewModel() {
         if (workoutIDLiveData.value == "") {
             currentWorkoutLiveData.user_id = auth.currentUser!!.uid
             addWorkoutToDb(currentWorkoutLiveData)
+        } else {
+            currentWorkoutLiveData.user_id = auth.currentUser!!.uid
+            updateWorkoutInDb(currentWorkoutLiveData)
         }
+    }
+
+    fun updateWorkoutInDb(existingWorkout: Workout) {
+        db.collection("workouts")
+            .document(existingWorkout.id)
+            .update(existingWorkout.toMap())
+            .addOnSuccessListener {
+                // Document updated successfully
+                // You can handle success here if needed
+            }
+            .addOnFailureListener { e ->
+                // Error handling
+                println("Error adding workout: $e")
+            }
     }
 
     fun addWorkoutToDb(newWorkout: Workout) {
