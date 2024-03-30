@@ -96,6 +96,9 @@ class CreateTwo: Fragment() {
                 for (exercise in workoutData.exercises) {
                     val newExerciseBinding = CreateNewExerciseBinding.inflate(layoutInflater, newExerciseContainer, false)
                     newExerciseBinding.etExerciseTitle.setText(exercise.title)
+                    newExerciseBinding.buttonDel.setOnClickListener {
+                        viewModel.deleteExercise(exercise)
+                    }
                     newExerciseBinding.etExerciseTitle.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                             // This method is called before the text is changed.

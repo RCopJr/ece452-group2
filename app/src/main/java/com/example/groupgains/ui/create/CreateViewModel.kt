@@ -157,7 +157,21 @@ class CreateViewModel @Inject constructor(): ViewModel() {
         }
     }
 
-    fun updateWorkoutInDb(existingWorkout: Workout) {
+    fun deleteExercise(exerciseToDelete: Exercise) {
+        val currentWorkoutLiveData = workoutLiveData.value
+        val iterator = currentWorkoutLiveData!!.exercises.iterator()
+
+        while(iterator.hasNext()){
+            val exercise = iterator.next()
+            if (exercise == exerciseToDelete) {
+                iterator.remove()
+            }
+        }
+
+        updateWorkoutData(currentWorkoutLiveData)
+    }
+
+    private fun updateWorkoutInDb(existingWorkout: Workout) {
         db.collection("workouts")
             .document(existingWorkout.id)
             .update(existingWorkout.toMap())
@@ -171,7 +185,7 @@ class CreateViewModel @Inject constructor(): ViewModel() {
             }
     }
 
-    fun addWorkoutToDb(newWorkout: Workout) {
+    private fun addWorkoutToDb(newWorkout: Workout) {
         val workoutsCollection = db.collection("workouts")
         workoutsCollection
             .add(newWorkout)
