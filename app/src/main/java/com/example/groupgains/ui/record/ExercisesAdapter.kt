@@ -1,6 +1,5 @@
 package com.example.groupgains.ui.record
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
+import com.example.groupgains.data.Exercise
 
 class ExercisesAdapter(private val exerciseList : MutableList<Exercise>) : RecyclerView.Adapter<ExercisesAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

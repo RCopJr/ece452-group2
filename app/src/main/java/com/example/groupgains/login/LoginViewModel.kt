@@ -68,7 +68,8 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         val newUser = hashMapOf(
             "first" to "First Name",
             "last" to "Last Name",
-            "user_id" to userID
+            "user_id" to userID,
+            "friends" to emptyList<String>()
         )
 
         // Add a new document with an auto-generated ID

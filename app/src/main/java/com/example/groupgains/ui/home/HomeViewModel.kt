@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.groupgains.ui.record.Exercise
-import com.example.groupgains.ui.record.Set
-import com.example.groupgains.ui.record.Workout
-import com.example.groupgains.ui.record.Workouts
+import com.example.groupgains.data.Exercise
+import com.example.groupgains.data.Set
+import com.example.groupgains.data.Workout
+import com.example.groupgains.data.Workouts
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.firestore
