@@ -13,13 +13,13 @@
         android:id="@+id/clTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/workoutsEditionContainer"
+        app:layout_constraintBottom_toTopOf="@+id/editSetsContainer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editButton"
+            android:id="@+id/etExerciseTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Original Exercise"
@@ -38,15 +38,13 @@
 
 
     <LinearLayout
-        android:id="@+id/workoutsEditionContainer"
+        android:id="@+id/editSetsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clTop">
-
-        <include layout="@layout/create_new_set"/>
 
     </LinearLayout>
 
@@ -57,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workoutsEditionContainer">
+        app:layout_constraintTop_toBottomOf="@+id/editSetsContainer">
 
         <Button
             android:id="@+id/btnAddSet"
