@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
+import com.example.groupgains.data.Workout
 import com.example.groupgains.databinding.Record1Binding
 
 class RecordOne: Fragment() {
     private var _binding: Record1Binding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: RecordViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,24 +31,18 @@ class RecordOne: Fragment() {
 
         _binding = Record1Binding.inflate(inflater, container, false)
         val root: View = binding.root
-
-
-
-//        val rec2 = RecordTwo()
-//        addButtons(5, buttonContain, rec2)
+        val parentActivity = requireActivity()
+        viewModel.initializeActivity(parentActivity)
 
         return root
     }
-
-    // Using the activityViewModels() Kotlin property delegate from the
-    // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
-    private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val rec2 = RecordTwo()
         val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
-        viewModel.workouts.observe(viewLifecycleOwner, Observer { workouts ->
-
+        viewModel.workoutsLiveData.observe(viewLifecycleOwner, Observer { workouts ->
+            workoutLinearLayout.removeAllViews()
             for (workout in workouts) {
 
                 val workoutItem = LayoutInflater.from(requireContext()).inflate(R.layout.workout_item, null)
@@ -59,7 +57,6 @@ class RecordOne: Fragment() {
                 val workoutExerciseDescription = workoutItem.findViewById<TextView>(R.id.workoutExerciseDesc)
                 workoutExerciseDescription.text = exerciseDescription
                 workoutLinearLayout.addView(workoutItem, workoutLinearLayout.childCount)
-                Log.d("TEST THIS CLICK", "THIS WAS CLICKED")
 
                 workoutItem.setOnClickListener {
                     Log.d("TEST THIS CLICK", "THIS WAS CLICKED")

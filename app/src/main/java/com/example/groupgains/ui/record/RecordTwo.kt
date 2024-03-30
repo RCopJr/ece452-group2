@@ -3,16 +3,17 @@ package com.example.groupgains.ui.record
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.groupgains.R
+import com.example.groupgains.data.Exercise
 import com.example.groupgains.databinding.Record2Binding
 
 class RecordTwo: Fragment(R.layout.record_2) {
@@ -75,20 +76,6 @@ class RecordTwo: Fragment(R.layout.record_2) {
         _binding = Record2Binding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val exerciseList = arrayListOf<Exercise>(
-//                Exercise("Bench Press"),
-//                Exercise("Shoulder Press"),
-//                Exercise("Bicep Curls"),
-//                Exercise("Lateral Raises")
-//        )
-//
-//        val adapter = ExercisesAdapter(exerciseList)
-//
-//        binding.rvExercises.adapter = adapter
-//        binding.rvExercises.layoutManager = LinearLayoutManager(this.context)
-
-      //  val butt = binding.button22
-
         val rec3 = RecordThree()
 
         binding.start.setOnClickListener {
@@ -109,11 +96,11 @@ class RecordTwo: Fragment(R.layout.record_2) {
         return root
     }
 
-    // Using the activityViewModels() Kotlin property delegate from the
-    // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.selectedWorkout.observe(viewLifecycleOwner, Observer { selectedWorkout ->
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.selectedWorkout.observe(viewLifecycleOwner) { selectedWorkout ->
+
             val exerciseList = mutableListOf<Exercise>()
             for (exercise in selectedWorkout.exercises) {
                 exerciseList.add(exercise)
@@ -123,7 +110,6 @@ class RecordTwo: Fragment(R.layout.record_2) {
 
             binding.rvExercises.adapter = adapter
             binding.rvExercises.layoutManager = LinearLayoutManager(this.context)
-        })
+        }
     }
-
 }

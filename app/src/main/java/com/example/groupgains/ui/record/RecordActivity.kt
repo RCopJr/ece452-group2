@@ -25,8 +25,8 @@ class RecordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val recordViewModel =
-            ViewModelProvider(this).get(RecordViewModel::class.java)
+
+        viewModel.initializeActivity(this)
 
         binding = ActivityRecordBinding.inflate(layoutInflater)
 
