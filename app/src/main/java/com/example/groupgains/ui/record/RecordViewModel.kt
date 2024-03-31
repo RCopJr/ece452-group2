@@ -42,7 +42,6 @@ class RecordViewModel : ViewModel() {
                     for (exercise in workout.exercises) {
                         exercise.numSets = exercise.sets.count()
                     }
-                    Log.d("WORKOUT DATA", "$workout")
                     workoutsList.add(workout)
                 }
                 workoutsLiveData.value = workoutsList

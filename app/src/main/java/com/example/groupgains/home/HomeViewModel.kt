@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -80,15 +81,45 @@ class HomeViewModel @Inject constructor(): ViewModel() {
     }
 
     fun loadWorkoutData(context: Activity) {
-        val workoutsRef = db.collection("workouts")
-        workoutsRef.get()
-            .addOnSuccessListener { documents ->
-                val workouts = documents.mapNotNull { it.toObject(Workout::class.java) }
-                this.workouts.postValue(workouts)
+        db.collection("users").whereEqualTo("user_id", auth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { userDocument ->
+
+                val userData = userDocument.documents[0].toObject<User>()
+                val friendsList = userData?.friends as List<*>
+                Log.d("FRIENDS LIST", "$friendsList")
+
+                val workoutsQuery = db.collection("workouts")
+                    .whereIn("user_id", friendsList)
+
+                workoutsQuery.get().addOnSuccessListener { workoutDocuments ->
+                    val workoutsList = mutableListOf<Workout>()
+                    for (document in workoutDocuments) {
+                        val workout = document.toObject<Workout>()
+                        for (exercise in workout.exercises) {
+                            exercise.numSets = exercise.sets.count()
+                        }
+                        workoutsList.add(workout)
+                    }
+
+                    workouts.value = workoutsList
+                }.addOnFailureListener { exception ->
+                    println("Error getting workouts: $exception")
+                }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(context, "Error getting workouts: $exception", Toast.LENGTH_SHORT).show()
+                println("Error getting friends list: $exception")
             }
+
+//        val workoutsRef = db.collection("workouts")
+//        workoutsRef.get()
+//            .addOnSuccessListener { documents ->
+//                val workouts = documents.mapNotNull { it.toObject(Workout::class.java) }
+//                this.workouts.postValue(workouts)
+//            }
+//            .addOnFailureListener { exception ->
+//                Toast.makeText(context, "Error getting workouts: $exception", Toast.LENGTH_SHORT).show()
+//            }
     }
 
     fun updateFriendList(userRef: DocumentReference, friend_id: String, operation: String) {
