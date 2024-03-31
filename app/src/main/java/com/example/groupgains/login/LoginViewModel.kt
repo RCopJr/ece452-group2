@@ -66,8 +66,7 @@ class LoginViewModel @Inject constructor(): ViewModel() {
 
         // Create a new user with a first and last name, and the user ID
         val newUser = hashMapOf(
-            "first" to "First Name",
-            "last" to "Last Name",
+            "userName" to "First Name",
             "user_id" to userID,
             "friends" to emptyList<String>()
         )
