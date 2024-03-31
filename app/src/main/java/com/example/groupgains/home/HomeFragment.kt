@@ -1,11 +1,10 @@
-package com.example.groupgains.ui.home
+package com.example.groupgains.home
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.FragmentHomeBinding
+import com.example.groupgains.home.HomeViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 

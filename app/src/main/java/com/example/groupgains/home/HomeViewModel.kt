@@ -5,18 +5,27 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import com.example.groupgains.data.User
+
+import com.example.groupgains.data.Workout
 import com.example.groupgains.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(): ViewModel() {
-
-
     lateinit var db: FirebaseFirestore
     lateinit var auth: FirebaseAuth
+    val workouts = MutableLiveData<List<Workout>>()
+    val friends = MutableLiveData<List<User>>()
+    val user = MutableLiveData<User>()
+    val user_id = MutableLiveData<String>()
+    val user_doc_id = MutableLiveData<String>()
 
     fun initializeActivity(context: Activity){
         auth = FirebaseAuth.getInstance()
@@ -27,17 +36,20 @@ class HomeViewModel @Inject constructor(): ViewModel() {
         }
         loadUserData(auth.currentUser!!.uid)
     }
+    
     fun loadUserData(userID: String){
+        user_id.postValue(userID)
         val userRef = db.collection("users")
         userRef.whereEqualTo("user_id", userID)
             .get()
             .addOnSuccessListener { documents ->
                 val userDocument = documents.documents.firstOrNull()
                 if (userDocument != null) {
-//                    user_data = userDocument.data!!
                     Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
+                    val userData = userDocument.toObject(User::class.java)
+                    user.postValue(userData)
+                    user_doc_id.postValue(userDocument.id)
                 } else {
-//                    user_data = null
                     Log.d("Load User", "No document found for userID: $userID")
                 }
             }
@@ -51,17 +63,61 @@ class HomeViewModel @Inject constructor(): ViewModel() {
         goToLogin(context)
     }
 
-    fun loadWorkoutData(workoutID: String, context: Activity) {
-
-        val workoutsRef = db.collection("workouts")
-        workoutsRef.document(workoutID)
+    fun loadFriendData(context: Activity, textFilter: String) {
+        val usersRef = db.collection("users")
+        usersRef
+            .orderBy("userName")
+            .whereGreaterThanOrEqualTo("userName", textFilter)
+            .whereLessThan("userName", textFilter + "\uf8ff")
             .get()
-            .addOnSuccessListener {
-                if (!it.exists()) {
-                    Toast.makeText(context, "No Workout Found", Toast.LENGTH_SHORT).show()
-                    return@addOnSuccessListener
-                }
+            .addOnSuccessListener { documents ->
+                val friends = documents.mapNotNull { it.toObject(User::class.java) }
+                this.friends.postValue(friends)
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(context, "Error getting friends: $exception", Toast.LENGTH_SHORT).show()
+            }
+    }
 
+    fun loadWorkoutData(context: Activity) {
+        val workoutsRef = db.collection("workouts")
+        workoutsRef.get()
+            .addOnSuccessListener { documents ->
+                val workouts = documents.mapNotNull { it.toObject(Workout::class.java) }
+                this.workouts.postValue(workouts)
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(context, "Error getting workouts: $exception", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun updateFriendList(userRef: DocumentReference, friend_id: String, operation: String) {
+        val updateOperation = if (operation == "add") FieldValue.arrayUnion(friend_id) else FieldValue.arrayRemove(friend_id)
+        userRef.update("friends", updateOperation)
+            .addOnSuccessListener {
+                Log.d("Update Friend", "Friend ID $operation to/from friends list successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Update Friend", "Error $operation Friend ID to/from friends list", e)
+            }
+    }
+
+    fun handleFriendClick(friend_id: String) {
+        val userRef = db.collection("users").document(user_doc_id.value ?: "")
+        val friendRef = db.collection("users").whereEqualTo("user_id", friend_id)
+
+        userRef.get()
+            .addOnSuccessListener { document ->
+                val friends = document.get("friends") as? List<*>
+                val operation = if (friends != null && friend_id in friends) "remove" else "add"
+                updateFriendList(userRef, friend_id, operation)
+
+                friendRef.get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        updateFriendList(document.reference, user_id.value ?: "", operation)
+                    }
+                }
             }
     }
 
