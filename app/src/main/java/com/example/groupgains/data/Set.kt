@@ -1,5 +1,11 @@
 package com.example.groupgains.data
 
 data class Set(
-    val title: String = "",
-)
+    var title: String = "",
+) {
+    fun toMap(): Map<String, Any> {
+        return mapOf(
+            "title" to title,
+        )
+    }
+}
