@@ -89,22 +89,24 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                 val friendsList = userData?.friends as List<*>
                 Log.d("FRIENDS LIST", "$friendsList")
 
-                val workoutsQuery = db.collection("workouts")
-                    .whereIn("user_id", friendsList)
+                if (friendsList.isNotEmpty()) {
+                    val workoutsQuery = db.collection("workouts")
+                        .whereIn("user_id", friendsList)
 
-                workoutsQuery.get().addOnSuccessListener { workoutDocuments ->
-                    val workoutsList = mutableListOf<Workout>()
-                    for (document in workoutDocuments) {
-                        val workout = document.toObject<Workout>()
-                        for (exercise in workout.exercises) {
-                            exercise.numSets = exercise.sets.count()
+                    workoutsQuery.get().addOnSuccessListener { workoutDocuments ->
+                        val workoutsList = mutableListOf<Workout>()
+                        for (document in workoutDocuments) {
+                            val workout = document.toObject<Workout>()
+                            for (exercise in workout.exercises) {
+                                exercise.numSets = exercise.sets.count()
+                            }
+                            workoutsList.add(workout)
                         }
-                        workoutsList.add(workout)
-                    }
 
-                    workouts.value = workoutsList
-                }.addOnFailureListener { exception ->
-                    println("Error getting workouts: $exception")
+                        workouts.value = workoutsList
+                    }.addOnFailureListener { exception ->
+                        println("Error getting workouts: $exception")
+                    }
                 }
             }
             .addOnFailureListener { exception ->

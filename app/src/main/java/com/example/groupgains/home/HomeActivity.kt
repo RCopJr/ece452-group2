@@ -52,6 +52,9 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
             }
         }
 
+        // Initial load of workout data
+        viewModel.loadWorkoutData(this)
+
         // Setup the recycler view for viewing posts in feed
         val feedAdapter = FeedAdapter(emptyList())
         val feedRecyclerView = findViewById<RecyclerView>(R.id.feedRecyclerView)
@@ -63,8 +66,6 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
             feedAdapter.workoutList = workouts
             feedAdapter.notifyDataSetChanged()
         })
-        // Initial load of workout data
-        viewModel.loadWorkoutData(this)
 
         val searchView: SearchView = findViewById(R.id.searchView)
         val layoutToHide: ConstraintLayout = findViewById(R.id.layoutToHide)
