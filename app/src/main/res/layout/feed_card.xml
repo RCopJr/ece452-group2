@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/workoutNameContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -60,6 +61,123 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userStatsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/timeBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="Time" />
+
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginVertical="2dp"
+                    android:src="@drawable/feed_time_icon"
+                    app:tint="@color/teal_200" />
+
+                <TextView
+                    android:id="@+id/timeValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:paddingVertical="2dp"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:text="Time" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/volumeBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/volumeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="Volume" />
+                
+               <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginVertical="2dp"
+                    android:src="@drawable/feed_volume_icon"
+                    app:tint="@color/teal_200"
+                />
+
+                <TextView
+                    android:id="@+id/volumeValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:paddingVertical="2dp"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:text="Volume" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/efficiencyBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/efficiencyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="Efficiency" />
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginVertical="2dp"
+                    android:src="@drawable/feed_efficiency_icon"
+                    app:tint="@color/teal_200"
+                    />
+
+                <TextView
+                    android:id="@+id/efficiencyValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:paddingVertical="2dp"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:text="Efficiency" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
