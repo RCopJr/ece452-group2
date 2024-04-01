@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:padding="24dp"
     android:layout_marginBottom="16dp"
     android:background="@drawable/rounded_card_background">
 
@@ -33,7 +33,11 @@
             android:id="@+id/buttonDel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="0dp"
             android:text="Delete"
+            app:layout_constraintBottom_toBottomOf="@+id/etExerciseTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
