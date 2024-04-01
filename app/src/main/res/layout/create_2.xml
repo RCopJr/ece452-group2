@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.create.CreateTwoActivity">
+    tools:context=".ui.create.CreateActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTop"
@@ -49,6 +49,11 @@
             android:id="@+id/etWorkoutTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/edit_text_no_underline"
+            android:padding="6dp"
             android:textSize="25dp"
             android:hint="Original Workout Name"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -64,6 +69,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

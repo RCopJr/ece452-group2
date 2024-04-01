@@ -120,6 +120,9 @@ class CreateTwo: Fragment() {
                     for (set in exercise.sets) {
                         val newSetBinding = CreateNewSetBinding.inflate(layoutInflater, setContainer, false)
                         newSetBinding.etSetTitle.setText(set.title)
+                        newSetBinding.etSetWeight.setText(set.weight)
+                        newSetBinding.etSetReps.setText(set.reps)
+
                         newSetBinding.etSetTitle.addTextChangedListener(object : TextWatcher {
                             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                                 // This method is called before the text is changed.
@@ -129,6 +132,40 @@ class CreateTwo: Fragment() {
                                 // This method is called when the text is changed.
                                 val newText = s.toString()
                                 viewModel.editSetTitle(newText, set)
+                                // Do something with the new text
+                            }
+
+                            override fun afterTextChanged(s: Editable?) {
+                                // This method is called after the text has changed.
+                            }
+                        })
+
+                        newSetBinding.etSetWeight.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                // This method is called before the text is changed.
+                            }
+
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                // This method is called when the text is changed.
+                                val newText = s.toString()
+                                viewModel.editSetWeight(newText, set)
+                                // Do something with the new text
+                            }
+
+                            override fun afterTextChanged(s: Editable?) {
+                                // This method is called after the text has changed.
+                            }
+                        })
+
+                        newSetBinding.etSetReps.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                // This method is called before the text is changed.
+                            }
+
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                // This method is called when the text is changed.
+                                val newText = s.toString()
+                                viewModel.editSetReps(newText, set)
                                 // Do something with the new text
                             }
 

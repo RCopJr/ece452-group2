@@ -134,6 +134,28 @@ class CreateViewModel @Inject constructor(): ViewModel() {
         }
     }
 
+    fun editSetReps(newReps: String, setToEdit: Set) {
+        val currentWorkoutData = workoutLiveData.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            for (set in exercise.sets) {
+                if (set == setToEdit) {
+                    set.reps = newReps
+                }
+            }
+        }
+    }
+
+    fun editSetWeight(newWeight: String, setToEdit: Set) {
+        val currentWorkoutData = workoutLiveData.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            for (set in exercise.sets) {
+                if (set == setToEdit) {
+                    set.weight = newWeight
+                }
+            }
+        }
+    }
+
     fun saveWorkout() {
         val currentWorkoutLiveData = workoutLiveData.value
         for (exercise in currentWorkoutLiveData?.exercises!!) {

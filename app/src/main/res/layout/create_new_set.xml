@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="8dp"
     android:paddingTop="8dp"
-    android:paddingEnd="8dp"
     android:paddingBottom="8dp">
 
     <EditText
         android:id="@+id/etSetTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Original Set Name"
+        android:background="@drawable/edit_text_no_underline"
+        android:padding="6dp"
+        android:textSize="16sp"
+        android:hint="Enter Set Title"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etRepCount"
-        android:layout_width="wrap_content"
+        android:id="@+id/etSetWeight"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:hint="Original Rep Count"
+        android:background="@drawable/edit_text_no_underline"
+        android:padding="6dp"
+        android:textSize="16sp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:hint="W"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@+id/etSetReps"
+        app:layout_constraintStart_toEndOf="@+id/etSetTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etSetReps"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_no_underline"
+        android:padding="6dp"
+        android:textSize="16sp"
+        android:gravity="center_horizontal"
+        android:hint="R"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
