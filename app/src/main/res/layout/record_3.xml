@@ -6,24 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.record.RecordActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+
+    <LinearLayout
+        android:id="@+id/statsContainer"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-        <LinearLayout
-            android:id="@+id/statsContainer"
-            android:layout_width="409dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
 
-        </LinearLayout>
+    <EditText
+        android:id="@+id/etSetEfficiency"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_no_underline"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:hint="%"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statsContainer" />
 
-    </ScrollView>
+    <Button
+        android:id="@+id/btnSetEfficiency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Efficiency"
+        app:layout_constraintBottom_toBottomOf="@+id/etSetEfficiency"
+        app:layout_constraintStart_toEndOf="@+id/etSetEfficiency"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSetEfficiency" />
+
+    <EditText
+        android:id="@+id/etSetFeedback"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_no_underline"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:hint="..."
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSetEfficiency" />
+
+    <Button
+        android:id="@+id/btnSetFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Feedback"
+        app:layout_constraintBottom_toBottomOf="@+id/etSetFeedback"
+        app:layout_constraintStart_toEndOf="@+id/etSetFeedback"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSetFeedback" />
 
     <TextView
         android:id="@+id/textView2"
@@ -36,11 +81,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
+
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Exit"
+        android:text="Finish Session"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

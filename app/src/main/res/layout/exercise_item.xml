@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="8dp">
+    android:padding="20dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/rounded_card_background">
 
     <TextView
         android:id="@+id/textView4"
@@ -18,12 +17,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/etSetTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:text="Set Description"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/etWeight"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:text="Weight"
+        app:layout_constraintBottom_toBottomOf="@+id/etSetTitle"
+        app:layout_constraintEnd_toStartOf="@+id/etRepCount"
+        app:layout_constraintStart_toEndOf="@+id/etSetTitle"
+        app:layout_constraintTop_toTopOf="@+id/etSetTitle" />
+
+    <TextView
+        android:id="@+id/etRepCount"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="65dp"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:text="Reps"
+        app:layout_constraintBottom_toBottomOf="@+id/etWeight"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etWeight" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSets"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/etSetTitle"
+        android:layout_marginTop="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

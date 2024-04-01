@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
 import com.example.groupgains.data.Exercise
 
-class ExercisesAdapter(private val exerciseList : MutableList<Exercise>) : RecyclerView.Adapter<ExercisesAdapter.MyViewHolder>() {
+class ExercisesAdapter(private val exerciseList : MutableList<Exercise>, private val viewModel: RecordViewModel) : RecyclerView.Adapter<ExercisesAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val exerciseTitle: TextView
 
@@ -18,10 +18,8 @@ class ExercisesAdapter(private val exerciseList : MutableList<Exercise>) : Recyc
             exerciseTitle = itemView.findViewById(R.id.textView4)
         }
 
-        fun bind(exercise: Exercise) {
-//            var amountOfSets = exercise.sets.size.toString()
-//            Log.d("AMOUNT OF SETS", amountOfSets)
-            val childSetsAdapter = SetAdapter(exercise.sets)
+        fun bind(exercise: Exercise, viewModel: RecordViewModel) {
+            val childSetsAdapter = SetAdapter(exercise.sets, viewModel)
             val setsRecyclerView = itemView.findViewById<RecyclerView>(R.id.rvSets)
             setsRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL,false)
             setsRecyclerView.adapter = childSetsAdapter
@@ -40,6 +38,6 @@ class ExercisesAdapter(private val exerciseList : MutableList<Exercise>) : Recyc
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.exerciseTitle.text = exerciseList[position].title
-        holder.bind(exerciseList[position])
+        holder.bind(exerciseList[position], viewModel)
     }
 }
