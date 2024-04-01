@@ -82,6 +82,7 @@ class RecordTwo: Fragment(R.layout.record_2) {
             startTimer()
         }
         binding.stop.setOnClickListener {
+            viewModel.createSession(binding.timer.text.toString())
             stopTimer()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.frame, rec3)
@@ -102,11 +103,13 @@ class RecordTwo: Fragment(R.layout.record_2) {
         viewModel.selectedWorkout.observe(viewLifecycleOwner) { selectedWorkout ->
 
             val exerciseList = mutableListOf<Exercise>()
-            for (exercise in selectedWorkout.exercises) {
-                exerciseList.add(exercise)
+            if (selectedWorkout != null) {
+                for (exercise in selectedWorkout.exercises) {
+                    exerciseList.add(exercise)
+                }
             }
 
-            val adapter = ExercisesAdapter(exerciseList)
+            val adapter = ExercisesAdapter(exerciseList, viewModel)
 
             binding.rvExercises.adapter = adapter
             binding.rvExercises.layoutManager = LinearLayoutManager(this.context)

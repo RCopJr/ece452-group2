@@ -1,16 +1,11 @@
 package com.example.groupgains.data
 
 data class Session(
-    var userId: String = "",
+    var user_id: String = "",
     var id: String = "",
     var workoutId: String = "",
+    var timestamp: String = "",
     var stats: Stats = Stats()
     //TODO: add other user reactions
 )
 
-data class Stats(
-    var efficiency: String = ""
-    var volume: String = "",
-    var feedback: String = "",
-    var totalTime: String = ""
-)
