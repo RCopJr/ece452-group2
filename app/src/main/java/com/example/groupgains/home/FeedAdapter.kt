@@ -15,6 +15,9 @@ class FeedAdapter(var feedList: List<SessionData>) : RecyclerView.Adapter<FeedAd
     class FeedViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val userName: TextView = v.findViewById(R.id.userName)
         val workoutName: TextView = v.findViewById(R.id.workoutName)
+        val timeValue: TextView = v.findViewById(R.id.timeValue)
+        val volumeValue: TextView = v.findViewById(R.id.volumeValue)
+        val efficiencyValue: TextView = v.findViewById(R.id.efficiencyValue)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
@@ -26,6 +29,9 @@ class FeedAdapter(var feedList: List<SessionData>) : RecyclerView.Adapter<FeedAd
         val myData = feedList[position]
         holder.userName.text = myData.userName
         holder.workoutName.text = myData.workoutName
+        holder.timeValue.text = myData.stats.totalTime
+        holder.volumeValue.text = "${myData.stats.volume} lb"
+        holder.efficiencyValue.text = "${myData.stats.volume} %"
     }
 
     override fun getItemCount() = feedList.size
