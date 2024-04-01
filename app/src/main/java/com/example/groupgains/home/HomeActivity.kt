@@ -16,6 +16,8 @@ import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityHomeBinding
 import com.example.groupgains.ui.create.CreateActivity
 import com.example.groupgains.ui.record.RecordActivity
+import com.example.groupgains.ui.profile.ProfileActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -46,6 +48,10 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
                 }
                 R.id.navigation_record -> {
                     startActivity(Intent(this, RecordActivity::class.java))
+                    true
+                }
+                R.id.navigation_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 else -> false

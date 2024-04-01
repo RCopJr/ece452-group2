@@ -29,6 +29,7 @@
         <activity android:name=".ui.create.CreateActivity"></activity>
         <activity android:name=".ui.create.CreateTwoActivity"></activity>
         <activity android:name=".ui.record.RecordActivity"></activity>
+        <activity android:name=".ui.profile.ProfileActivity"></activity>
     </application>
 
 </manifest>

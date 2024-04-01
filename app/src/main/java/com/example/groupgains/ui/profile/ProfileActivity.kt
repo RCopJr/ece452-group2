@@ -1,4 +1,4 @@
-package com.example.groupgains.ui.record
+package com.example.groupgains.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,30 +10,35 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityHomeBinding
-import com.example.groupgains.databinding.ActivityRecordBinding
+import com.example.groupgains.databinding.ActivityProfileBinding
 import com.example.groupgains.home.HomeActivity
 import com.example.groupgains.home.HomeViewModel
 import com.example.groupgains.ui.create.CreateActivity
-import com.example.groupgains.ui.profile.ProfileActivity
+import com.example.groupgains.ui.record.RecordActivity
+import android.util.Log
 
+class ProfileActivity : AppCompatActivity() {
 
-class RecordActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityProfileBinding
 
-    private lateinit var binding: ActivityRecordBinding
-
-
-    private val viewModel: RecordViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.initializeActivity(this)
-
-        binding = ActivityRecordBinding.inflate(layoutInflater)
-
+        binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val record1 = RecordOne()
+        viewModel.initializeActivity(this)
+
+        binding.btnLogout.setOnClickListener {
+            //for logout
+            viewModel.signOut(this)
+        }
+
+        Log.d("TEST IN PROFILE ONE ONCREATE", "TEST")
+
+        val profile1 = ProfileOne()
 
         // Get instance of FragmentManager
         val fragmentManager = supportFragmentManager
@@ -41,12 +46,12 @@ class RecordActivity : AppCompatActivity() {
         // Begin transaction
         val fragmentTransaction = fragmentManager.beginTransaction()
 
-        fragmentTransaction.add(R.id.frame, record1)
+        fragmentTransaction.add(R.id.frame, profile1)
 
         // Commit transaction
         fragmentTransaction.commit()
 
-        binding.navView.selectedItemId = R.id.navigation_record
+        binding.navView.selectedItemId = R.id.navigation_profile
 
         binding.navView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -58,18 +63,12 @@ class RecordActivity : AppCompatActivity() {
                     startActivity(Intent(this, CreateActivity::class.java))
                     true
                 }
-                R.id.navigation_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
+                R.id.navigation_record -> {
+                    startActivity(Intent(this, RecordActivity::class.java))
                     true
                 }
                 else -> false
             }
         }
-
-//        parentFragmentManager.beginTransaction().apply {
-//            replace(R.id.frame, record1)
-//            commit()
-//        }
-
     }
 }
