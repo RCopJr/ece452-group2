@@ -52,7 +52,7 @@ class LoginViewModel @Inject constructor(): ViewModel() {
                     Toast.makeText(context, "User successfully created with ID: $userId", Toast.LENGTH_SHORT).show()
                     Toast.makeText(context, "User successfully created", Toast.LENGTH_SHORT).show()
                     if (userId != null) {
-                        addUserToCollection(userId)
+                        addUserToCollection(userId, email)
                     }
                     goToHome(context)
                 } else {
@@ -61,12 +61,12 @@ class LoginViewModel @Inject constructor(): ViewModel() {
             }
     }
 
-    private fun addUserToCollection(userID: String) {
+    private fun addUserToCollection(userID: String, email: String) {
         val userRef = db.collection("users")
 
         // Create a new user with a first and last name, and the user ID
         val newUser = hashMapOf(
-            "userName" to "First Name",
+            "userName" to email,
             "user_id" to userID,
             "friends" to emptyList<String>()
         )
