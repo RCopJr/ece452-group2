@@ -12,6 +12,7 @@ import com.example.groupgains.data.Session
 import com.example.groupgains.data.SessionData
 import com.example.groupgains.data.Workout
 import com.example.groupgains.login.LoginActivity
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -124,6 +125,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                                                 stats = session.stats
                                             )
                                             sessionDataList.add(sessionDataObj)
+                                            sessionsData.value = sessionDataList
                                         }
                                         .addOnFailureListener { exception ->
                                             println("Error getting workout: $exception")
@@ -133,7 +135,6 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                                     println("Error getting user: $exception")
                                 }
                         }
-                        sessionsData.value = sessionDataList
                     }.addOnFailureListener { exception ->
                         println("Error getting sessions: $exception")
                     }
