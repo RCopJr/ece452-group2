@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
-import com.example.groupgains.data.Workout
+import com.example.groupgains.data.SessionData
 
 
-class FeedAdapter(var workoutList: List<Workout>) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+class FeedAdapter(var feedList: List<SessionData>) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     
     class FeedViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val userName: TextView = v.findViewById(R.id.userName)
@@ -23,10 +23,10 @@ class FeedAdapter(var workoutList: List<Workout>) : RecyclerView.Adapter<FeedAda
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-        val myData = workoutList[position]
-        holder.userName.text = myData.title
-        holder.workoutName.text = myData.title
+        val myData = feedList[position]
+        holder.userName.text = myData.userName
+        holder.workoutName.text = myData.workoutName
     }
 
-    override fun getItemCount() = workoutList.size
+    override fun getItemCount() = feedList.size
 }

@@ -33,10 +33,6 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         viewModel.initializeActivity(this)
 
-        binding.btnLogout.setOnClickListener {
-            viewModel.signOut(this)
-        }
-
         setContentView(binding.root)
 
         binding.navView.selectedItemId = R.id.navigation_home
@@ -58,9 +54,6 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
             }
         }
 
-        // Initial load of workout data
-        viewModel.loadWorkoutData(this)
-
         // Setup the recycler view for viewing posts in feed
         val feedAdapter = FeedAdapter(emptyList())
         val feedRecyclerView = findViewById<RecyclerView>(R.id.feedRecyclerView)
@@ -68,10 +61,13 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
         feedRecyclerView.adapter = feedAdapter
 
         // Setup observer for when posts to display changes
-        viewModel.workouts.observe(this, { workouts ->
-            feedAdapter.workoutList = workouts
+        viewModel.sessionsData.observe(this, { sessions ->
+            feedAdapter.feedList = sessions
             feedAdapter.notifyDataSetChanged()
         })
+
+        // Initial load of workout data
+        viewModel.loadSessionData(this)
 
         val searchView: SearchView = findViewById(R.id.searchView)
         val layoutToHide: ConstraintLayout = findViewById(R.id.layoutToHide)

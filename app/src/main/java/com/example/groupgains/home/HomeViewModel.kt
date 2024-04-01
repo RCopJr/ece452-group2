@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.groupgains.data.User
 
+import com.example.groupgains.data.Session
+import com.example.groupgains.data.SessionData
 import com.example.groupgains.data.Workout
 import com.example.groupgains.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -16,13 +18,14 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(): ViewModel() {
     lateinit var db: FirebaseFirestore
     lateinit var auth: FirebaseAuth
-    val workouts = MutableLiveData<List<Workout>>()
+    val sessionsData = MutableLiveData<List<SessionData>>()
     val friends = MutableLiveData<List<User>>()
     val user = MutableLiveData<User>()
     val user_id = MutableLiveData<String>()
@@ -37,7 +40,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
         }
         loadUserData(auth.currentUser!!.uid)
     }
-    
+
     fun loadUserData(userID: String){
         user_id.postValue(userID)
         val userRef = db.collection("users")
@@ -80,7 +83,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
             }
     }
 
-    fun loadWorkoutData(context: Activity) {
+    fun loadSessionData(context: Activity) {
         db.collection("users").whereEqualTo("user_id", auth.currentUser!!.uid)
             .get()
             .addOnSuccessListener { userDocument ->
@@ -90,38 +93,55 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                 Log.d("FRIENDS LIST", "$friendsList")
 
                 if (friendsList.isNotEmpty()) {
-                    val workoutsQuery = db.collection("workouts")
+                    val sessionsQuery = db.collection("sessions")
                         .whereIn("user_id", friendsList)
 
-                    workoutsQuery.get().addOnSuccessListener { workoutDocuments ->
-                        val workoutsList = mutableListOf<Workout>()
-                        for (document in workoutDocuments) {
-                            val workout = document.toObject<Workout>()
-                            for (exercise in workout.exercises) {
-                                exercise.numSets = exercise.sets.count()
-                            }
-                            workoutsList.add(workout)
+                    sessionsQuery.get().addOnSuccessListener { sessionDocuments ->
+                        val sessionsList = mutableListOf<Session>()
+                        for (document in sessionDocuments) {
+                            val session = document.toObject<Session>()
+                            sessionsList.add(session)
                         }
 
-                        workouts.value = workoutsList
+                        val sessionDataList = mutableListOf<SessionData>()
+                        for (session in sessionsList) {
+                            // Query the users collection with the user_id from the session
+                            db.collection("users").whereEqualTo("user_id", session.user_id)
+                                .get()
+                                .addOnSuccessListener { userDocuments ->
+                                    val user = userDocuments.documents[0].toObject<User>()
+
+                                    // Query the workouts collection with the workoutId from the session
+                                    db.collection("workouts").document(session.workoutId ?: "")
+                                        .get()
+                                        .addOnSuccessListener { documentSnapshot ->
+                                            val workout = documentSnapshot.toObject(Workout::class.java)
+                                            val sessionDataObj = SessionData(
+                                                userName = user?.userName ?: "",
+                                                userProfilePicture = "",
+                                                workoutName = workout?.title ?: "",
+                                                timestamp = session.timestamp,
+                                                stats = session.stats
+                                            )
+                                            sessionDataList.add(sessionDataObj)
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            println("Error getting workout: $exception")
+                                        }
+                                }
+                                .addOnFailureListener { exception ->
+                                    println("Error getting user: $exception")
+                                }
+                        }
+                        sessionsData.value = sessionDataList
                     }.addOnFailureListener { exception ->
-                        println("Error getting workouts: $exception")
+                        println("Error getting sessions: $exception")
                     }
                 }
             }
             .addOnFailureListener { exception ->
                 println("Error getting friends list: $exception")
             }
-
-//        val workoutsRef = db.collection("workouts")
-//        workoutsRef.get()
-//            .addOnSuccessListener { documents ->
-//                val workouts = documents.mapNotNull { it.toObject(Workout::class.java) }
-//                this.workouts.postValue(workouts)
-//            }
-//            .addOnFailureListener { exception ->
-//                Toast.makeText(context, "Error getting workouts: $exception", Toast.LENGTH_SHORT).show()
-//            }
     }
 
     fun updateFriendList(userRef: DocumentReference, friend_id: String, operation: String) {
@@ -146,11 +166,11 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                 updateFriendList(userRef, friend_id, operation)
 
                 friendRef.get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        updateFriendList(document.reference, user_id.value ?: "", operation)
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            updateFriendList(document.reference, user_id.value ?: "", operation)
+                        }
                     }
-                }
             }
     }
 
