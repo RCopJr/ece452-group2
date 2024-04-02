@@ -228,45 +228,63 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/feedbackTitle">
-                
+
+
+
                 <ImageView
                     android:id="@+id/feedback1"
                     android:layout_width="0dp"
-                    android:layout_height="33dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginVertical="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/feedback_item_unselected"
                     android:src="@drawable/crying_face" />
+
 
                 <ImageView
                     android:id="@+id/feedback2"
                     android:layout_width="0dp"
-                    android:layout_height="33dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginVertical="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/feedback_item_unselected"
                     android:src="@drawable/slightly_frowning_face" />
 
                 <ImageView
                     android:id="@+id/feedback3"
                     android:layout_width="0dp"
-                    android:layout_height="33dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginVertical="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/feedback_item_unselected"
                     android:src="@drawable/neutral_face" />
 
                 <ImageView
                     android:id="@+id/feedback4"
                     android:layout_width="0dp"
-                    android:layout_height="33dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginVertical="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/feedback_item_unselected"
                     android:src="@drawable/slightly_smiling_face" />
 
                 <ImageView
                     android:id="@+id/feedback5"
                     android:layout_width="0dp"
-                    android:layout_height="33dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginVertical="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/feedback_item_unselected"
                     android:src="@drawable/smiling_face_with_open_mouth" />
 
             </LinearLayout>

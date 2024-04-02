@@ -7,22 +7,58 @@
     android:padding="16dp"
     tools:context=".ui.record.RecordActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvExercises"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/stop"
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clTop"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+    app:layout_constraintTop_toBottomOf="@+id/startBox">
+
+    <TextView
+        android:id="@+id/etWorkoutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:padding="6dp"
+        android:textSize="25dp"
+        android:hint="Original Workout Name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startBox" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clTop">
+
+        <LinearLayout
+            android:id="@+id/editExercisesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/startBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20sp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +68,7 @@
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50sp"
+            android:layout_marginStart="5sp"
             android:layout_marginEnd="15sp"
             android:text="00:00:00"
             android:textSize="20sp"
@@ -43,8 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -54,8 +88,15 @@
             android:layout_marginStart="5sp"
             android:enabled="false"
             android:text="Reset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:enabled="true"
+            android:text="Add"
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
@@ -69,7 +110,7 @@
         android:text="END WORKOUT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvExercises" />
+        app:layout_constraintTop_toBottomOf="@id/scrollView2" />
 
     <Button
         android:id="@+id/buttonCancel"
@@ -78,6 +119,6 @@
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/stop"
-        app:layout_constraintTop_toBottomOf="@+id/rvExercises" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

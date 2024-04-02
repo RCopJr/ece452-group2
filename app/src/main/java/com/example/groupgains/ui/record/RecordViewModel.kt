@@ -43,7 +43,7 @@ class RecordViewModel : ViewModel() {
     private val mutableTotalTime = MutableLiveData<String>()
     val totalTime: LiveData<String> get() = mutableTotalTime
 
-    private val mutableFeedback = MutableLiveData<String>("3")
+    private val mutableFeedback = MutableLiveData<String>()
     val feedback: LiveData<String> get() = mutableFeedback
 
     fun initializeActivity(context: Activity){
@@ -94,6 +94,8 @@ class RecordViewModel : ViewModel() {
                 }
             }
         }
+
+        selectedWorkout.value = currentWorkoutData
     }
 
     fun handleUpdateFeedback(newFeedback: String) {
@@ -156,6 +158,116 @@ class RecordViewModel : ViewModel() {
             .addOnFailureListener { e ->
                 println("Error adding workout: $e")
             }
+    }
+
+    fun updateWorkoutData(newWorkout: Workout) {
+        mutableSelectedWorkout.value = newWorkout
+    }
+    fun addExercise() {
+        val currentWorkoutData = selectedWorkout.value
+        currentWorkoutData?.exercises?.add(Exercise())
+
+        Log.d("CURRENT WORKOUT DATA", "$currentWorkoutData")
+        if (currentWorkoutData != null) {
+            updateWorkoutData(currentWorkoutData)
+        }
+    }
+
+    fun addSet(exerciseToEdit: Exercise) {
+        val currentWorkoutData = selectedWorkout.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            if (exercise == exerciseToEdit) {
+                exercise.sets.add(Set())
+            }
+        }
+
+        updateWorkoutData(currentWorkoutData)
+    }
+
+    fun editWorkoutTitle(newTitle: String) {
+        val currentWorkoutData = selectedWorkout.value
+        if (currentWorkoutData != null) {
+            currentWorkoutData.title = newTitle
+        }
+    }
+
+    fun editExerciseTitle(newTitle: String, exerciseToEdit: Exercise) {
+        val currentWorkoutData = selectedWorkout.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            if (exercise == exerciseToEdit) {
+                exercise.title = newTitle
+            }
+        }
+    }
+
+    fun editSetTitle(newTitle: String, setToEdit: Set) {
+        val currentWorkoutData = selectedWorkout.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            for (set in exercise.sets) {
+                if (set == setToEdit) {
+                    set.title = newTitle
+                }
+            }
+        }
+    }
+
+    fun editSetReps(newReps: String, setToEdit: Set) {
+        val currentWorkoutData = selectedWorkout.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            for (set in exercise.sets) {
+                if (set == setToEdit) {
+                    set.reps = newReps
+                }
+            }
+        }
+    }
+
+    fun editSetWeight(newWeight: String, setToEdit: Set) {
+        val currentWorkoutData = selectedWorkout.value
+        for (exercise in currentWorkoutData!!.exercises) {
+            for (set in exercise.sets) {
+                if (set == setToEdit) {
+                    set.weight = newWeight
+                }
+            }
+        }
+    }
+
+//    fun saveWorkout() {
+//        val currentWorkoutLiveData = selectedWorkout.value
+//        for (exercise in currentWorkoutLiveData?.exercises!!) {
+//            if (exercise.title == "") {
+//                currentWorkoutLiveData.exercises.remove(exercise)
+//            } else {
+//                for (set in exercise.sets) {
+//                    if (set.title == "") {
+//                        exercise.sets.remove(set)
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (workoutIDLiveData.value == "") {
+//            currentWorkoutLiveData.user_id = auth.currentUser!!.uid
+//            addWorkoutToDb(currentWorkoutLiveData)
+//        } else {
+//            currentWorkoutLiveData.user_id = auth.currentUser!!.uid
+//            updateWorkoutInDb(currentWorkoutLiveData)
+//        }
+//    }
+
+    fun deleteExercise(exerciseToDelete: Exercise) {
+        val currentWorkoutLiveData = selectedWorkout.value
+        val iterator = currentWorkoutLiveData!!.exercises.iterator()
+
+        while(iterator.hasNext()){
+            val exercise = iterator.next()
+            if (exercise == exerciseToDelete) {
+                iterator.remove()
+            }
+        }
+
+        updateWorkoutData(currentWorkoutLiveData)
     }
     private fun goToLogin(context: Activity) {
         context.startActivity(Intent(context, LoginActivity::class.java))

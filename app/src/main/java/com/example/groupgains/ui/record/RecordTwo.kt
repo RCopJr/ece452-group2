@@ -3,6 +3,8 @@ package com.example.groupgains.ui.record
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.groupgains.R
 import com.example.groupgains.data.Exercise
+import com.example.groupgains.databinding.CreateNewExerciseBinding
+import com.example.groupgains.databinding.CreateNewSetBinding
+import com.example.groupgains.databinding.EditExerciseRecordBinding
+import com.example.groupgains.databinding.EditSetRecordBinding
 import com.example.groupgains.databinding.Record2Binding
 
 class RecordTwo: Fragment(R.layout.record_2) {
@@ -106,19 +112,114 @@ class RecordTwo: Fragment(R.layout.record_2) {
     private val viewModel: RecordViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.selectedWorkout.observe(viewLifecycleOwner) { selectedWorkout ->
 
-            val exerciseList = mutableListOf<Exercise>()
-            if (selectedWorkout != null) {
-                for (exercise in selectedWorkout.exercises) {
-                    exerciseList.add(exercise)
+        binding.buttonAdd.setOnClickListener {
+            viewModel.addExercise()
+        }
+
+        val newExerciseContainer = binding.editExercisesContainer
+
+        viewModel.selectedWorkout.observe(viewLifecycleOwner, Observer { workoutData ->
+            newExerciseContainer.removeAllViews()
+            Log.d("WORKOUT DATA", "$workoutData")
+            if (workoutData != null) {
+                binding.etWorkoutTitle.setText(workoutData.title)
+
+                for (exercise in workoutData.exercises) {
+                    val newExerciseBinding = EditExerciseRecordBinding.inflate(layoutInflater, newExerciseContainer, false)
+                    newExerciseBinding.etExerciseTitle.setText(exercise.title)
+                    newExerciseBinding.buttonDel.setOnClickListener {
+                        viewModel.deleteExercise(exercise)
+                    }
+                    newExerciseBinding.etExerciseTitle.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                            // This method is called before the text is changed.
+                        }
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                            // This method is called when the text is changed.
+                            val newText = s.toString()
+                            viewModel.editExerciseTitle(newText, exercise)
+                            // Do something with the new text
+                        }
+
+                        override fun afterTextChanged(s: Editable?) {
+                            // This method is called after the text has changed.
+                        }
+                    })
+                    newExerciseContainer.addView(newExerciseBinding.root)
+                    val setContainer = newExerciseBinding.editSetsContainer
+                    for (set in exercise.sets) {
+                        val newSetBinding = EditSetRecordBinding.inflate(layoutInflater, setContainer, false)
+                        newSetBinding.etSetTitle.setText(set.title)
+                        newSetBinding.etSetWeight.setText(set.weight)
+                        newSetBinding.etSetReps.setText(set.reps)
+
+                        newSetBinding.setCheckBox.isChecked = set.checked
+
+                        newSetBinding.setCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                            viewModel.handleSetChecked(set, isChecked)
+//                            newSetBinding.setCheckBox.isChecked = isChecked
+                        }
+
+                        newSetBinding.etSetTitle.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                // This method is called before the text is changed.
+                            }
+
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                // This method is called when the text is changed.
+                                val newText = s.toString()
+                                viewModel.editSetTitle(newText, set)
+                                // Do something with the new text
+                            }
+
+                            override fun afterTextChanged(s: Editable?) {
+                                // This method is called after the text has changed.
+                            }
+                        })
+
+                        newSetBinding.etSetWeight.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                // This method is called before the text is changed.
+                            }
+
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                // This method is called when the text is changed.
+                                val newText = s.toString()
+                                viewModel.editSetWeight(newText, set)
+                                // Do something with the new text
+                            }
+
+                            override fun afterTextChanged(s: Editable?) {
+                                // This method is called after the text has changed.
+                            }
+                        })
+
+                        newSetBinding.etSetReps.addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                                // This method is called before the text is changed.
+                            }
+
+                            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                                // This method is called when the text is changed.
+                                val newText = s.toString()
+                                viewModel.editSetReps(newText, set)
+                                // Do something with the new text
+                            }
+
+                            override fun afterTextChanged(s: Editable?) {
+                                // This method is called after the text has changed.
+                            }
+                        })
+                        setContainer.addView(newSetBinding.root)
+                    }
+                    newExerciseBinding.btnAddSet.setOnClickListener {
+                        viewModel.addSet(exercise)
+                    }
+
                 }
             }
-
-            val adapter = ExercisesAdapter(exerciseList, viewModel)
-
-            binding.rvExercises.adapter = adapter
-            binding.rvExercises.layoutManager = LinearLayoutManager(this.context)
-        }
+        })
     }
 }
