@@ -3,11 +3,11 @@ package com.example.groupgains.login
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityLoginBinding
+import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,6 +49,7 @@ class LoginActivity: AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Email or password cannot be empty for registration.", Toast.LENGTH_SHORT).show()
             } else {
+                viewModel.onRegister(this)
                 viewModel.createUser(email, password, this)
             }
         }

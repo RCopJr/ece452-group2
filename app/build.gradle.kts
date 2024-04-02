@@ -62,6 +62,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-database:20.3.1")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.dagger:hilt-android:2.51")
+    implementation ("com.google.android.material:material:1.11.0")
     kapt("com.google.dagger:hilt-android-compiler:2.51")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
