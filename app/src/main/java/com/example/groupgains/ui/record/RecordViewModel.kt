@@ -31,8 +31,11 @@ class RecordViewModel : ViewModel() {
     private val mutableSelectedWorkout = MutableLiveData<Workout?>()
     val selectedWorkout: MutableLiveData<Workout?> get() = mutableSelectedWorkout
 
-    private val mutableUserEfficiency = MutableLiveData<String>()
-    private val userEfficiency: LiveData<String> get() = mutableUserEfficiency
+    private val mutableTotalSets = MutableLiveData<String>()
+    val totalSets: LiveData<String> get() = mutableTotalSets
+
+    private val mutableCompletion = MutableLiveData<String>()
+    val completion: LiveData<String> get() = mutableCompletion
 
     private val mutableVolume = MutableLiveData<String>()
     val volume: LiveData<String> get() = mutableVolume
@@ -40,7 +43,7 @@ class RecordViewModel : ViewModel() {
     private val mutableTotalTime = MutableLiveData<String>()
     val totalTime: LiveData<String> get() = mutableTotalTime
 
-    private val mutableFeedback = MutableLiveData<String>()
+    private val mutableFeedback = MutableLiveData<String>("3")
     val feedback: LiveData<String> get() = mutableFeedback
 
     fun initializeActivity(context: Activity){
@@ -93,10 +96,6 @@ class RecordViewModel : ViewModel() {
         }
     }
 
-    fun handleUpdateEfficiency(newEfficiency: String) {
-        mutableUserEfficiency.value = newEfficiency
-    }
-
     fun handleUpdateFeedback(newFeedback: String) {
         mutableFeedback.value = newFeedback
     }
@@ -105,14 +104,19 @@ class RecordViewModel : ViewModel() {
         val currentWorkoutData = mutableSelectedWorkout.value
         mutableTotalTime.value = totalTime
         var totalVolume = 0
+        var completedSets = 0
+        var allSets = 0
         for (exercise in currentWorkoutData!!.exercises) {
             for (set in exercise.sets) {
                 if (set.checked) {
+                    completedSets += 1
                     totalVolume += set.reps.toInt() * set.weight.toInt()
                 }
+                allSets += 1
             }
         }
-
+        mutableCompletion.value = ((completedSets.toDouble() / allSets) * 100).toInt().toString()
+        mutableTotalSets.value = completedSets.toString()
         mutableVolume.value = totalVolume.toString()
     }
 
@@ -131,7 +135,7 @@ class RecordViewModel : ViewModel() {
             id = "",
             workoutId = selectedWorkout.value!!.id,
             timestamp = getCurrentDateTime(),
-            stats = Stats(userEfficiency.value, volume.value, feedback.value, totalTime.value),
+            stats = Stats(totalSets.value, volume.value, feedback.value, totalTime.value, completion.value),
             reactions = Reactions()
         )
 
