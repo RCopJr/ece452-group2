@@ -94,7 +94,7 @@ class LoginViewModel @Inject constructor(): ViewModel() {
                 "\n" +
                 "Listen to Your Body: Pay attention to any discomfort or pain during your workouts. Stop immediately if you experience any sharp pain or unusual discomfort. Pushing through pain can lead to serious injuries.\n" +
                 "\n" +
-                "5. Consult Your Physician: If you have any pre-existing medical conditions or concerns about your ability to engage in weightlifting exercises, consult with your physician before starting any new fitness regimen.\n" +
+                "Consult Your Physician: If you have any pre-existing medical conditions or concerns about your ability to engage in weightlifting exercises, consult with your physician before starting any new fitness regimen.\n" +
                 "\n" +
                 "By proceeding to use this app, you acknowledge and agree to adhere to these health and safety guidelines. \n" +
                 "\n" +
