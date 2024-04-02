@@ -122,7 +122,8 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                                                 userProfilePicture = "",
                                                 workoutName = workout?.title ?: "",
                                                 timestamp = session.timestamp,
-                                                stats = session.stats
+                                                stats = session.stats,
+                                                reactions = session.reactions
                                             )
                                             sessionDataList.add(sessionDataObj)
                                             sessionsData.value = sessionDataList

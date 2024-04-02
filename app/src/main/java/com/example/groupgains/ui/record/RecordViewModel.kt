@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.groupgains.data.Exercise
+import com.example.groupgains.data.Reactions
 import com.example.groupgains.data.Session
 import com.example.groupgains.data.Set
 import com.example.groupgains.data.Stats
@@ -130,7 +131,8 @@ class RecordViewModel : ViewModel() {
             id = "",
             workoutId = selectedWorkout.value!!.id,
             timestamp = getCurrentDateTime(),
-            stats = Stats(userEfficiency.value, volume.value, feedback.value, totalTime.value)
+            stats = Stats(userEfficiency.value, volume.value, feedback.value, totalTime.value),
+            reactions = Reactions()
         )
 
         val sessionCollection = db.collection("sessions")

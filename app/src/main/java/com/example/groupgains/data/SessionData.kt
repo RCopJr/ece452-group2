@@ -5,7 +5,8 @@ data class SessionData(
     var userProfilePicture: String = "",
     var workoutName: String = "",
     var timestamp: String = "",
-    var stats: Stats = Stats()
+    var stats: Stats = Stats(),
     //TODO: add other user reactions
+    var reactions: Reactions = Reactions(),
 )
 
