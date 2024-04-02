@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(): ViewModel() {
 
     }
 
-    fun onRegister(context: Activity) {
+    fun onRegister(email: String, password: String, context: Activity) {
         val builder = AlertDialog.Builder(context)
 
         builder.setMessage("Before you proceed, please take a moment to review the following important health and safety information:\n" +
@@ -108,9 +108,10 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         builder.setCancelable(false)
 
         // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
-        builder.setPositiveButton("I understand") {
+        builder.setPositiveButton("I understand- Register me!") {
             // When the user click yes button then app will close
                 dialog, which -> dialog.cancel()
+                createUser(email, password, context)
         }
 
         // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.

@@ -49,8 +49,7 @@ class LoginActivity: AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Email or password cannot be empty for registration.", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.onRegister(this)
-                viewModel.createUser(email, password, this)
+                viewModel.onRegister(email, password, this)
             }
         }
 
