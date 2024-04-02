@@ -41,15 +41,15 @@ class RecordOne: Fragment() {
         val rec2 = RecordTwo()
         val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
-        val btnStartEmptySession = binding.btnStartEmptySession
+//        val btnStartEmptySession = binding.btnStartEmptySession
 
-        btnStartEmptySession.setOnClickListener {
-            onWorkoutClicked(Workout(title = "New Workout"))
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.frame, rec2)
-                commit()
-            }
-        }
+//        btnStartEmptySession.setOnClickListener {
+//            onWorkoutClicked(Workout(title = "New Workout"))
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.frame, rec2)
+//                commit()
+//            }
+//        }
 
         viewModel.workoutsLiveData.observe(viewLifecycleOwner, Observer { workouts ->
             workoutLinearLayout.removeAllViews()
