@@ -1,12 +1,16 @@
 package com.example.groupgains.home
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
 import com.example.groupgains.data.Reactions
@@ -35,6 +39,13 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         val fireCounter = fireButton.findViewById<TextView>(R.id.emojiFireVal)
         val hundredCounter = hundredButton.findViewById<TextView>(R.id.emojiHundredVal)
         val bicepCounter = bicepButton.findViewById<TextView>(R.id.emojiBicepVal)
+
+        // CardView for margin
+        val heartCard = v.findViewById<CardView>(R.id.heart)
+        val celebrateCard = v.findViewById<CardView>(R.id.celebrate)
+        val fireCard = v.findViewById<CardView>(R.id.fire)
+        val bicepCard = v.findViewById<CardView>(R.id.bicep)
+        val hundredCard = v.findViewById<CardView>(R.id.hundred)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
@@ -66,14 +77,14 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         holder.fireCounter.text = fire_reactions.size.toString()
         holder.celebrateCounter.text = celebrate_reactions.size.toString()
 
-        loadReactionsToUI(holder.heartCounter, heart_reactions, userId)
-        loadReactionsToUI(holder.bicepCounter, bicep_reactions, userId)
-        loadReactionsToUI(holder.hundredCounter, hundred_reactions, userId)
-        loadReactionsToUI(holder.fireCounter, fire_reactions, userId)
-        loadReactionsToUI(holder.celebrateCounter, celebrate_reactions, userId)
+        loadReactionsToUI(holder.heartCard, holder.heartCounter, heart_reactions, userId)
+        loadReactionsToUI(holder.bicepCard, holder.bicepCounter, bicep_reactions, userId)
+        loadReactionsToUI(holder.hundredCard, holder.hundredCounter, hundred_reactions, userId)
+        loadReactionsToUI(holder.fireCard, holder.fireCounter, fire_reactions, userId)
+        loadReactionsToUI(holder.celebrateCard, holder.celebrateCounter, celebrate_reactions, userId)
 
         holder.heartButton.setOnClickListener{
-            updateReaction(holder.heartCounter, heart_reactions, userId)
+            updateReaction(holder.heartCard, holder.heartCounter, heart_reactions, userId)
 
             val reactions = generateReactions(heart_reactions, bicep_reactions,
                 hundred_reactions, fire_reactions, celebrate_reactions)
@@ -81,7 +92,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         }
 
         holder.bicepButton.setOnClickListener{
-            updateReaction(holder.bicepCounter, bicep_reactions, userId)
+            updateReaction(holder.bicepCard, holder.bicepCounter, bicep_reactions, userId)
 
             val reactions = generateReactions(heart_reactions, bicep_reactions,
                 hundred_reactions, fire_reactions, celebrate_reactions)
@@ -89,7 +100,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         }
 
         holder.hundredButton.setOnClickListener{
-            updateReaction(holder.hundredCounter, hundred_reactions, userId)
+            updateReaction(holder.hundredCard, holder.hundredCounter, hundred_reactions, userId)
 
             val reactions = generateReactions(heart_reactions, bicep_reactions,
                 hundred_reactions, fire_reactions, celebrate_reactions)
@@ -97,7 +108,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         }
 
         holder.fireButton.setOnClickListener{
-            updateReaction(holder.fireCounter, fire_reactions, userId)
+            updateReaction(holder.fireCard, holder.fireCounter, fire_reactions, userId)
 
             val reactions = generateReactions(heart_reactions, bicep_reactions,
                 hundred_reactions, fire_reactions, celebrate_reactions)
@@ -105,7 +116,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         }
 
         holder.celebrateButton.setOnClickListener{
-            updateReaction(holder.celebrateCounter, celebrate_reactions, userId)
+            updateReaction(holder.celebrateCard, holder.celebrateCounter, celebrate_reactions, userId)
 
             val reactions = generateReactions(heart_reactions, bicep_reactions,
                 hundred_reactions, fire_reactions, celebrate_reactions)
@@ -116,7 +127,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
 
     override fun getItemCount() = feedList.size
 
-    private fun updateReaction(counter: TextView, reactions: MutableList<String>, userId: String){
+    private fun updateReaction(margin: CardView, counter: TextView, reactions: MutableList<String>, userId: String){
         if (userId in reactions) {
             counter.text = (reactions.size - 1).toString()
             reactions.remove(userId)
@@ -126,17 +137,19 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
             reactions.add(userId)
         }
 
-        loadReactionsToUI(counter, reactions, userId)
+        loadReactionsToUI(margin, counter, reactions, userId)
     }
 
-    private fun loadReactionsToUI(counter: TextView, reactions: MutableList<String>, user: String){
+    private fun loadReactionsToUI(margin: CardView, counter: TextView, reactions: MutableList<String>, user: String){
         if(user in reactions){
             counter.setTypeface(null, Typeface.BOLD)
-            counter.setTextColor(0xFFFF0000.toInt())
+            counter.setTextColor(getColor(counter.context,R.color.teal_400))
+            margin.setCardBackgroundColor(getColor(counter.context,R.color.teal_200))
         }
         else{
             counter.setTypeface(null, Typeface.NORMAL)
             counter.setTextColor(0xFF000000.toInt())
+            margin.setCardBackgroundColor(0xFFFFFFFF.toInt())
         }
     }
 
