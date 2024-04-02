@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -24,7 +25,9 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         val workoutName: TextView = v.findViewById(R.id.workoutName)
         val timeValue: TextView = v.findViewById(R.id.timeValue)
         val volumeValue: TextView = v.findViewById(R.id.volumeValue)
-        val efficiencyValue: TextView = v.findViewById(R.id.efficiencyValue)
+        val completionValue: TextView = v.findViewById(R.id.completionValue)
+        val setsValue: TextView = v.findViewById(R.id.setsValue)
+        val userFeedbackImage: ImageView = v.findViewById(R.id.userFeedbackImage)
 
         // Get interactive emoji button
         val heartButton = v.findViewById<LinearLayout>(R.id.emojiHeartLayout)
@@ -61,8 +64,18 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         holder.workoutName.text = myData.workoutName
         holder.timeValue.text = myData.stats.totalTime
         holder.volumeValue.text = "${myData.stats.volume} lb"
-        holder.efficiencyValue.text = "${myData.stats.volume} %"
+        holder.completionValue.text = "${myData.stats.completion} %"
+        holder.setsValue.text = "${myData.stats.totalSets} sets"
         val session_id = myData.sessionId
+
+        when (myData.stats.feedback) {
+            "1" -> holder.userFeedbackImage.setImageResource(R.drawable.crying_face)
+            "2" -> holder.userFeedbackImage.setImageResource(R.drawable.slightly_frowning_face)
+            "3" -> holder.userFeedbackImage.setImageResource(R.drawable.neutral_face)
+            "4" -> holder.userFeedbackImage.setImageResource(R.drawable.slightly_smiling_face)
+            "5" -> holder.userFeedbackImage.setImageResource(R.drawable.smiling_face_with_open_mouth)
+            else -> holder.userFeedbackImage.setImageResource(R.drawable.neutral_face)
+        }
 
         // Load arrays
         val heart_reactions = myData.reactions.heart
