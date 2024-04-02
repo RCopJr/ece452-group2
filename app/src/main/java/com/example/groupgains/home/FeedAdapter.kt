@@ -12,9 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
 import com.example.groupgains.data.SessionData
 import com.example.groupgains.data.Workout
+import androidx.lifecycle.MutableLiveData
 
 
-class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeViewModel) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+interface FeedViewModelInterface {
+    // Define methods that both HomeViewModel and ProfileViewModel implement
+    val user_id: MutableLiveData<String>
+}
+
+class FeedAdapter(var feedList: List<SessionData>, private val viewModel: FeedViewModelInterface) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     
     class FeedViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val userName: TextView = v.findViewById(R.id.userName)

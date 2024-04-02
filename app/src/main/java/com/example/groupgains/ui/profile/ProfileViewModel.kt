@@ -13,8 +13,102 @@ import com.example.groupgains.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.example.groupgains.home.FeedViewModelInterface
+import com.example.groupgains.data.SessionData
+import com.example.groupgains.data.Session
+import com.example.groupgains.data.User
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel : ViewModel(), FeedViewModelInterface {
+    override val user_id = MutableLiveData<String>()
+    val sessionsData = MutableLiveData<List<SessionData>>()
+    val user = MutableLiveData<User>()
+    val user_doc_id = MutableLiveData<String>()
+
+
+    fun loadSessionData(context: Activity) {
+        Log.d("gonna load", "PLEASE LOAD SESSION DATA")
+        db.collection("users").whereEqualTo("user_id", auth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { userDocument ->
+
+                val userData = userDocument.documents[0].toObject<User>()
+                val friendsList = userData?.friends as List<*>
+                Log.d("FRIENDS LIST", "$friendsList")
+
+                if (friendsList.isNotEmpty()) {
+                    val sessionsQuery = db.collection("sessions")
+                        .whereIn("user_id", friendsList)
+
+                    sessionsQuery.get().addOnSuccessListener { sessionDocuments ->
+                        val sessionsList = mutableListOf<Session>()
+                        for (document in sessionDocuments) {
+                            val session = document.toObject<Session>()
+                            sessionsList.add(session)
+                        }
+
+                        val sessionDataList = mutableListOf<SessionData>()
+                        for (session in sessionsList) {
+                            // Query the users collection with the user_id from the session
+                            db.collection("users").whereEqualTo("user_id", session.user_id)
+                                .get()
+                                .addOnSuccessListener { userDocuments ->
+                                    val user = userDocuments.documents[0].toObject<User>()
+
+                                    // Query the workouts collection with the workoutId from the session
+                                    db.collection("workouts").document(session.workoutId ?: "")
+                                        .get()
+                                        .addOnSuccessListener { documentSnapshot ->
+                                            val workout = documentSnapshot.toObject(Workout::class.java)
+                                            val sessionDataObj = SessionData(
+                                                userName = user?.userName ?: "",
+                                                userProfilePicture = "",
+                                                workoutName = workout?.title ?: "",
+                                                timestamp = session.timestamp,
+                                                stats = session.stats,
+                                                reactions = session.reactions
+                                            )
+                                            sessionDataList.add(sessionDataObj)
+                                            sessionsData.value = sessionDataList
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            println("Error getting workout: $exception")
+                                        }
+                                }
+                                .addOnFailureListener { exception ->
+                                    println("Error getting user: $exception")
+                                }
+                        }
+                    }.addOnFailureListener { exception ->
+                        println("Error getting sessions: $exception")
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("Error getting friends list: $exception")
+            }
+    }
+
+    fun loadUserData(userID: String){
+        user_id.postValue(userID)
+        val userRef = db.collection("users")
+        userRef.whereEqualTo("user_id", userID)
+            .get()
+            .addOnSuccessListener { documents ->
+                val userDocument = documents.documents.firstOrNull()
+                if (userDocument != null) {
+                    Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
+                    val userData = userDocument.toObject(User::class.java)
+                    user.postValue(userData)
+                    user_doc_id.postValue(userDocument.id)
+                } else {
+                    Log.d("Load User", "No document found for userID: $userID")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("Load User", "Error getting documents: ", exception)
+            }
+    }
+
 
     lateinit var db: FirebaseFirestore
     lateinit var auth: FirebaseAuth
@@ -25,12 +119,11 @@ class ProfileViewModel : ViewModel() {
     fun initializeActivity(context: Activity){
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
         if (auth.currentUser == null) {
             goToLogin(context)
         }
         loadWorkoutData(auth.currentUser!!.uid)
-            Log.d("TEST IN VIEW MODAL", "TEST")
+        loadUserData(auth.currentUser!!.uid)
     }
 
     fun signOut(context: Activity){

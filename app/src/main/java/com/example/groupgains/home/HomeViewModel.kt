@@ -21,18 +21,21 @@ import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import com.example.groupgains.home.FeedViewModelInterface
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel() {
+class HomeViewModel @Inject constructor(): ViewModel(), FeedViewModelInterface {
     lateinit var db: FirebaseFirestore
     lateinit var auth: FirebaseAuth
     val sessionsData = MutableLiveData<List<SessionData>>()
     val friends = MutableLiveData<List<User>>()
     val user = MutableLiveData<User>()
-    val user_id = MutableLiveData<String>()
+    override val user_id = MutableLiveData<String>()
     val user_doc_id = MutableLiveData<String>()
 
     fun initializeActivity(context: Activity){
+        Log.d("log test", "test log")
+
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()

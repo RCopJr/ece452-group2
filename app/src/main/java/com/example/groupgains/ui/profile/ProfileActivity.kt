@@ -16,27 +16,37 @@ import com.example.groupgains.home.HomeViewModel
 import com.example.groupgains.ui.create.CreateActivity
 import com.example.groupgains.ui.record.RecordActivity
 import android.util.Log
+import com.example.groupgains.home.FeedAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+import com.example.groupgains.data.SessionData
 
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
+
+    lateinit var db: FirebaseFirestore
+    lateinit var auth: FirebaseAuth
 
     private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d("TEST", "TEST IN PROFILE ONE ONCREATE")
+
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.initializeActivity(this)
+        viewModel.initializeActivity(this@ProfileActivity)
 
         binding.btnLogout.setOnClickListener {
             //for logout
-            viewModel.signOut(this)
+            viewModel.signOut(this@ProfileActivity)
         }
 
-        Log.d("TEST IN PROFILE ONE ONCREATE", "TEST")
 
         val profile1 = ProfileOne()
 
@@ -70,5 +80,26 @@ class ProfileActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        // Initial load of workout data
+        viewModel.loadSessionData(this@ProfileActivity)
+
+        // Setup the recycler view for viewing posts in feed
+        val feedAdapter = FeedAdapter(emptyList(), viewModel)
+        val feedRecyclerView = findViewById<RecyclerView>(R.id.feedRecyclerView)
+        if (feedRecyclerView != null) {
+            feedRecyclerView.layoutManager = LinearLayoutManager(this@ProfileActivity)
+            feedRecyclerView.adapter = feedAdapter
+        } else {
+            Log.d("ERROR", "Recycler view is null")
+        }
+
+        // Setup observer for when posts to display changes
+        viewModel.sessionsData.observe(this@ProfileActivity, { sessions: List<SessionData> ->
+            feedAdapter.feedList = sessions
+            feedAdapter.notifyDataSetChanged()
+        })
     }
+
+
 }
