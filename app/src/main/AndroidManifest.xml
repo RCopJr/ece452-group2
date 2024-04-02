@@ -26,9 +26,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.HomeActivity"></activity>
-        <activity android:name=".ui.create.CreateActivity"></activity>
-        <activity android:name=".ui.create.CreateTwoActivity"></activity>
-        <activity android:name=".ui.record.RecordActivity"></activity>
+        <activity android:name=".ui.create.CreateActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".ui.record.RecordActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".ui.profile.ProfileActivity"></activity>
     </application>
 

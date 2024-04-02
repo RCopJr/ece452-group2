@@ -41,6 +41,16 @@ class RecordOne: Fragment() {
         val rec2 = RecordTwo()
         val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
+//        val btnStartEmptySession = binding.btnStartEmptySession
+
+//        btnStartEmptySession.setOnClickListener {
+//            onWorkoutClicked(Workout(title = "New Workout"))
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.frame, rec2)
+//                commit()
+//            }
+//        }
+
         viewModel.workoutsLiveData.observe(viewLifecycleOwner, Observer { workouts ->
             workoutLinearLayout.removeAllViews()
             for (workout in workouts) {
@@ -73,26 +83,4 @@ class RecordOne: Fragment() {
     private fun onWorkoutClicked (workout: Workout) {
         viewModel.selectWorkout(workout)
     }
-
-    private fun addButtons(data: Int, container: LinearLayout, page: RecordTwo) {
-        val workouts = listOf<String>("Leg day", "Chest Day", "Arm Day", "Push-pull",
-            "Workout", "Workout", "Workout","Workout", "Workout", "Workout")
-        for (i in 1..data){
-            val button = Button(requireContext())
-            button.text = workouts[i-1]
-
-            val params = ViewGroup.LayoutParams(750, 250)
-            button.layoutParams = params
-
-            container.addView(button)
-
-            button.setOnClickListener {
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.frame, page)
-                    commit()
-                }
-            }
-        }
-    }
-
 }
