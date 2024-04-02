@@ -212,7 +212,14 @@ class CreateViewModel @Inject constructor(): ViewModel() {
         workoutsCollection
             .add(newWorkout)
             .addOnSuccessListener { documentReference ->
-                // The workout data was added successfully
+                db.collection("workouts")
+                    .document(documentReference.id)
+                    .update(mapOf("id" to documentReference.id))
+                    .addOnSuccessListener {
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error adding workout: $e")
+                    }
                 println("Workout added with ID: ${documentReference.id}")
             }
             .addOnFailureListener { e ->
