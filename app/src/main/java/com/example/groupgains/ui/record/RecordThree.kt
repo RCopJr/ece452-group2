@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.groupgains.R
@@ -39,46 +41,45 @@ class RecordThree: Fragment() {
             }
         }
 
-
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val statContainer: LinearLayout = binding.statsContainer
-        addStats(statContainer)
+        val volumeValue = view.findViewById<TextView>(R.id.volumeValue)
+        volumeValue.text = "${viewModel.volume.value.toString()} lb"
 
-        val btnSetEfficiency = binding.btnSetEfficiency
+        val setsValue = view.findViewById<TextView>(R.id.setsValue)
+        setsValue.text = "${viewModel.totalSets.value.toString()} sets"
 
-        btnSetEfficiency.setOnClickListener {
-            val newEfficiency = binding.etSetEfficiency
-            viewModel.handleUpdateEfficiency(newEfficiency.text.toString())
+        val timeValue = view.findViewById<TextView>(R.id.timeValue)
+        timeValue.text = "${viewModel.totalTime.value.toString()}"
+
+        val completionValue = view.findViewById<TextView>(R.id.completionValue)
+        completionValue.text = "${viewModel.completion.value.toString()} %"
+
+        val feedback1ImageView: ImageView = view.findViewById(R.id.feedback1)
+        feedback1ImageView.setOnClickListener {
+            viewModel.handleUpdateFeedback("1")
         }
 
-        val btnSetFeedback = binding.btnSetFeedback
-
-        btnSetFeedback.setOnClickListener {
-            val newFeedback= binding.etSetFeedback
-            viewModel.handleUpdateFeedback(newFeedback.text.toString())
+        val feedback2ImageView: ImageView = view.findViewById(R.id.feedback2)
+        feedback2ImageView.setOnClickListener {
+            viewModel.handleUpdateFeedback("2")
         }
-    }
-    private fun addStats(container: LinearLayout) {
-        //CARD FOR VOLUME
-        val volumeItem = LayoutInflater.from(requireContext()).inflate(R.layout.record_stats, null)
-        val volumeTitle = volumeItem.findViewById<TextView>(R.id.statTitle)
-        val volumeValue = volumeItem.findViewById<TextView>(R.id.statDescription)
-        volumeTitle.text = "Volume"
-        volumeValue.text = viewModel.volume.value.toString()
 
-        container.addView(volumeItem, container.childCount)
+        val feedback3ImageView: ImageView = view.findViewById(R.id.feedback3)
+        feedback3ImageView.setOnClickListener {
+            viewModel.handleUpdateFeedback("3")
+        }
 
-        //CARD FOR TIME
-        val timeItem = LayoutInflater.from(requireContext()).inflate(R.layout.record_stats, null)
-        val timeTitle = timeItem.findViewById<TextView>(R.id.statTitle)
-        val timeValue = timeItem.findViewById<TextView>(R.id.statDescription)
-        timeTitle.text = "Time"
-        timeValue.text = viewModel.totalTime.value.toString()
+        val feedback4ImageView: ImageView = view.findViewById(R.id.feedback4)
+        feedback4ImageView.setOnClickListener {
+            viewModel.handleUpdateFeedback("4")
+        }
 
-        container.addView(timeItem, container.childCount)
+        val feedback5ImageView: ImageView = view.findViewById(R.id.feedback5)
+        feedback5ImageView.setOnClickListener {
+            viewModel.handleUpdateFeedback("5")
+        }
     }
 }

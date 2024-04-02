@@ -6,91 +6,281 @@
     android:layout_height="match_parent"
     tools:context=".ui.record.RecordActivity">
 
-
     <LinearLayout
-        android:id="@+id/statsContainer"
-        android:layout_width="409dp"
+        android:id="@+id/verticalContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent" >
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="28dp"
+            android:text="Great Work!"
+            android:textSize="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/celebrationIcon"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/party_popper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <LinearLayout
+            android:id="@+id/statsContainer1"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/celebrationIcon">
+
+            <LinearLayout
+                android:id="@+id/volumeBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/volumeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:text="Volume"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/fire" />
+
+                <TextView
+                    android:id="@+id/volumeValue"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Volume" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/setsBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/setsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:text="Sets"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/dumbbell" />
+
+                <TextView
+                    android:id="@+id/setsValue"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Sets" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/statsContainer2"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statsContainer1">
+
+            <LinearLayout
+                android:id="@+id/timeBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:text="Time"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/stopwatch" />
+
+                <TextView
+                    android:id="@+id/timeValue"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Time" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/completionBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/completionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:text="Completion"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/cup" />
+
+                <TextView
+                    android:id="@+id/completionValue"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Completion" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/feedbackContainer"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statsContainer2">
+
+            <TextView
+                android:id="@+id/feedbackTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="How do you feel?"
+                android:textSize="20dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            />
+
+            <LinearLayout
+                android:id="@+id/iconContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feedbackTitle">
+                
+                <ImageView
+                    android:id="@+id/feedback1"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/crying_face" />
+
+                <ImageView
+                    android:id="@+id/feedback2"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/slightly_frowning_face" />
+
+                <ImageView
+                    android:id="@+id/feedback3"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/neutral_face" />
+
+                <ImageView
+                    android:id="@+id/feedback4"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/slightly_smiling_face" />
+
+                <ImageView
+                    android:id="@+id/feedback5"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="4dp"
+                    android:src="@drawable/smiling_face_with_open_mouth" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_marginTop="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finish Session"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/etSetEfficiency"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_no_underline"
-        android:ellipsize="end"
-        android:gravity="center_horizontal"
-        android:hint="%"
-        android:padding="6dp"
-        android:singleLine="true"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statsContainer" />
-
-    <Button
-        android:id="@+id/btnSetEfficiency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update Efficiency"
-        app:layout_constraintBottom_toBottomOf="@+id/etSetEfficiency"
-        app:layout_constraintStart_toEndOf="@+id/etSetEfficiency"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etSetEfficiency" />
-
-    <EditText
-        android:id="@+id/etSetFeedback"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_no_underline"
-        android:ellipsize="end"
-        android:gravity="center_horizontal"
-        android:hint="..."
-        android:padding="6dp"
-        android:singleLine="true"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSetEfficiency" />
-
-    <Button
-        android:id="@+id/btnSetFeedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update Feedback"
-        app:layout_constraintBottom_toBottomOf="@+id/etSetFeedback"
-        app:layout_constraintStart_toEndOf="@+id/etSetFeedback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etSetFeedback" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="ANALYSIS"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish Session"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
