@@ -6,20 +6,19 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.groupgains.data.Reactions
 import com.example.groupgains.data.User
 
 import com.example.groupgains.data.Session
 import com.example.groupgains.data.SessionData
 import com.example.groupgains.data.Workout
 import com.example.groupgains.login.LoginActivity
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -123,7 +122,8 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                                                 workoutName = workout?.title ?: "",
                                                 timestamp = session.timestamp,
                                                 stats = session.stats,
-                                                reactions = session.reactions
+                                                reactions = session.reactions,
+                                                sessionId = session.id
                                             )
                                             sessionDataList.add(sessionDataObj)
                                             sessionsData.value = sessionDataList
@@ -181,4 +181,14 @@ class HomeViewModel @Inject constructor(): ViewModel() {
         context.finish()
     }
 
+    fun updateReactionsInDb(reactions: Reactions, session_id: String) {
+        db.collection("sessions")
+            .document(session_id)
+            .update(mapOf("reactions" to reactions))
+            .addOnSuccessListener {}
+            .addOnFailureListener { e ->
+                // Error handling
+                println("Error adding workout: $e")
+            }
+    }
 }

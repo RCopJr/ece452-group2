@@ -2,7 +2,6 @@ package com.example.groupgains.home
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
+import com.example.groupgains.data.Reactions
 import com.example.groupgains.data.SessionData
-import com.example.groupgains.data.Workout
 
 
 class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeViewModel) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
@@ -52,6 +51,7 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         holder.timeValue.text = myData.stats.totalTime
         holder.volumeValue.text = "${myData.stats.volume} lb"
         holder.efficiencyValue.text = "${myData.stats.volume} %"
+        val session_id = myData.sessionId
 
         // Load arrays
         val heart_reactions = myData.reactions.heart
@@ -66,24 +66,90 @@ class FeedAdapter(var feedList: List<SessionData>, private val viewModel: HomeVi
         holder.fireCounter.text = fire_reactions.size.toString()
         holder.celebrateCounter.text = celebrate_reactions.size.toString()
 
-        //TODO: Connect to database. Do we need on Destroy?
+        loadReactionsToUI(holder.heartCounter, heart_reactions, userId)
+        loadReactionsToUI(holder.bicepCounter, bicep_reactions, userId)
+        loadReactionsToUI(holder.hundredCounter, hundred_reactions, userId)
+        loadReactionsToUI(holder.fireCounter, fire_reactions, userId)
+        loadReactionsToUI(holder.celebrateCounter, celebrate_reactions, userId)
+
         holder.heartButton.setOnClickListener{
-            if (userId in heart_reactions) {
-                holder.heartCounter.text = (heart_reactions.size - 1).toString()
-                holder.heartCounter.setTypeface(null, Typeface.NORMAL)
-                holder.heartCounter.setTextColor(0xFF000000.toInt())
-                heart_reactions.remove(userId)
-            }
-            else {
-                holder.heartCounter.text = (heart_reactions.size + 1).toString()
-                holder.heartCounter.setTypeface(null, Typeface.BOLD)
-                holder.heartCounter.setTextColor(0xFFFF0000.toInt())
-                heart_reactions.add(userId)
-            }
+            updateReaction(holder.heartCounter, heart_reactions, userId)
+
+            val reactions = generateReactions(heart_reactions, bicep_reactions,
+                hundred_reactions, fire_reactions, celebrate_reactions)
+            viewModel.updateReactionsInDb(reactions, session_id)
+        }
+
+        holder.bicepButton.setOnClickListener{
+            updateReaction(holder.bicepCounter, bicep_reactions, userId)
+
+            val reactions = generateReactions(heart_reactions, bicep_reactions,
+                hundred_reactions, fire_reactions, celebrate_reactions)
+            viewModel.updateReactionsInDb(reactions, session_id)
+        }
+
+        holder.hundredButton.setOnClickListener{
+            updateReaction(holder.hundredCounter, hundred_reactions, userId)
+
+            val reactions = generateReactions(heart_reactions, bicep_reactions,
+                hundred_reactions, fire_reactions, celebrate_reactions)
+            viewModel.updateReactionsInDb(reactions, session_id)
+        }
+
+        holder.fireButton.setOnClickListener{
+            updateReaction(holder.fireCounter, fire_reactions, userId)
+
+            val reactions = generateReactions(heart_reactions, bicep_reactions,
+                hundred_reactions, fire_reactions, celebrate_reactions)
+            viewModel.updateReactionsInDb(reactions, session_id)
+        }
+
+        holder.celebrateButton.setOnClickListener{
+            updateReaction(holder.celebrateCounter, celebrate_reactions, userId)
+
+            val reactions = generateReactions(heart_reactions, bicep_reactions,
+                hundred_reactions, fire_reactions, celebrate_reactions)
+            viewModel.updateReactionsInDb(reactions, session_id)
         }
 
     }
 
     override fun getItemCount() = feedList.size
+
+    private fun updateReaction(counter: TextView, reactions: MutableList<String>, userId: String){
+        if (userId in reactions) {
+            counter.text = (reactions.size - 1).toString()
+            reactions.remove(userId)
+        }
+        else {
+            counter.text = (reactions.size + 1).toString()
+            reactions.add(userId)
+        }
+
+        loadReactionsToUI(counter, reactions, userId)
+    }
+
+    private fun loadReactionsToUI(counter: TextView, reactions: MutableList<String>, user: String){
+        if(user in reactions){
+            counter.setTypeface(null, Typeface.BOLD)
+            counter.setTextColor(0xFFFF0000.toInt())
+        }
+        else{
+            counter.setTypeface(null, Typeface.NORMAL)
+            counter.setTextColor(0xFF000000.toInt())
+        }
+    }
+
+    private fun generateReactions(heart: MutableList<String>, bicep: MutableList<String>,
+                              hundred: MutableList<String>, fire: MutableList<String>,
+                              celebrateBinding: MutableList<String>) : Reactions{
+        val react = Reactions()
+        react.heart = heart
+        react.bicep = bicep
+        react.fire = fire
+        react.hundred = hundred
+        react.celebrate = celebrateBinding
+        return react
+    }
 
 }
