@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityCreateBinding
-import com.example.groupgains.databinding.CreateWorkoutListBinding
 import com.example.groupgains.home.HomeActivity
 import com.example.groupgains.ui.record.CreateOne
 import com.example.groupgains.ui.record.RecordActivity

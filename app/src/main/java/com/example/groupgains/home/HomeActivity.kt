@@ -28,6 +28,11 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -55,7 +60,7 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
         }
 
         // Setup the recycler view for viewing posts in feed
-        val feedAdapter = FeedAdapter(emptyList())
+        val feedAdapter = FeedAdapter(emptyList(), viewModel)
         val feedRecyclerView = findViewById<RecyclerView>(R.id.feedRecyclerView)
         feedRecyclerView.layoutManager = LinearLayoutManager(this)
         feedRecyclerView.adapter = feedAdapter

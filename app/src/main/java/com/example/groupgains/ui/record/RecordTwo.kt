@@ -76,6 +76,7 @@ class RecordTwo: Fragment(R.layout.record_2) {
         _binding = Record2Binding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val rec1 = RecordOne()
         val rec3 = RecordThree()
 
         binding.start.setOnClickListener {
@@ -92,7 +93,12 @@ class RecordTwo: Fragment(R.layout.record_2) {
         binding.reset.setOnClickListener {
             resetTimer()
         }
-
+        binding.buttonCancel.setOnClickListener {
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.frame, rec1)
+                commit()
+            }
+        }
 
         return root
     }

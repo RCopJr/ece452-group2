@@ -58,7 +58,7 @@ class CreateOne: Fragment() {
             workoutLinearLayout.removeAllViews()
             for (workout in workouts) {
 
-                val workoutItem = LayoutInflater.from(requireContext()).inflate(R.layout.workout_item, null)
+                val workoutItem = LayoutInflater.from(requireContext()).inflate(R.layout.create_workout_item, null)
                 val workoutTitle = workoutItem.findViewById<TextView>(R.id.workoutTitle)
                 workoutTitle.text = workout.title
 
