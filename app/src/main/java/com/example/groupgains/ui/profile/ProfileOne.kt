@@ -16,84 +16,123 @@ import androidx.lifecycle.Observer
 import com.example.groupgains.R
 import com.example.groupgains.data.Workout
 import com.example.groupgains.databinding.Profile1Binding
+import android.content.Intent
+import android.app.Activity
+import android.widget.ImageView
+import com.example.groupgains.databinding.FragmentImageListBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.example.groupgains.databinding.ItemImageBinding
+import android.widget.RadioGroup
 
 class ProfileOne: Fragment() {
+    private var myImage: ImageView? = null
+
     private var _binding: Profile1Binding? = null
     private val binding get() = _binding!!
-
     private val viewModel: ProfileViewModel by activityViewModels()
+
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 100
+    }
+
+    private fun openFileChooser() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            val imageUri = data.data
+            myImage?.setImageURI(imageUri)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = Profile1Binding.inflate(inflater, container, false)
         val root: View = binding.root
         val parentActivity = requireActivity()
         viewModel.initializeActivity(parentActivity)
 
+        binding.buttonChooseImage.setOnClickListener {
+            openFileChooser()
+        }
+
         return root
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // val rec2 = ProfileTwo()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val workoutLinearLayout: LinearLayout = binding.workoutLinearLayout
 
-        // viewModel.workoutsLiveData.observe(viewLifecycleOwner, Observer { workouts ->
-        //     workoutLinearLayout.removeAllViews()
-        //     for (workout in workouts) {
+        myImage = view.findViewById(R.id.image_view)
 
-        //         val workoutItem = LayoutInflater.from(requireContext()).inflate(R.layout.workout_item, null)
-        //         val workoutTitle = workoutItem.findViewById<TextView>(R.id.workoutTitle)
-        //         workoutTitle.text = workout.title
+        val radioGroup: RadioGroup = view.findViewById(R.id.radioGroup)
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButton1 -> myImage?.setImageResource(R.drawable.image1)
+                R.id.radioButton2 -> myImage?.setImageResource(R.drawable.image2)
+                R.id.radioButton3 -> myImage?.setImageResource(R.drawable.image3)
+            }
+        }
+    }
+    
+}
 
-        //         var exerciseDescription = ""
-        //         for (exercise in workout.exercises) {
-        //             exerciseDescription = exerciseDescription + exercise.title + " x " + exercise.numSets + ", "
-        //         }
-        //         exerciseDescription = exerciseDescription.dropLast(2)
-        //         val workoutExerciseDescription = workoutItem.findViewById<TextView>(R.id.workoutExerciseDesc)
-        //         workoutExerciseDescription.text = exerciseDescription
-        //         workoutLinearLayout.addView(workoutItem, workoutLinearLayout.childCount)
+class ImageListFragment : Fragment(), ImageListAdapter.OnImageClickListener {
+    private var _binding: FragmentImageListBinding? = null
+    private val binding get() = _binding!!
 
-        //         workoutItem.setOnClickListener {
-        //             Log.d("TEST THIS CLICK", "THIS WAS CLICKED")
-        //             onWorkoutClicked(workout)
-        //             parentFragmentManager.beginTransaction().apply {
-        //                 replace(R.id.frame, rec2)
-        //                 commit()
-        //             }
-        //         }
-        //     }
-        // })
+    private val imageList = listOf(R.drawable.image1, R.drawable.image2, R.drawable.image3) // replace with your actual images
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentImageListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun onWorkoutClicked (workout: Workout) {
-        viewModel.selectWorkout(workout)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = ImageListAdapter(imageList, this)
+        binding.recyclerView.adapter = adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
+    override fun onImageClick(imageResId: Int) {
+        // handle image click
+        // you can use a shared ViewModel or a callback interface to pass the selected image back to ProfileOne fragment
+    }
 
-    // private fun addButtons(data: Int, container: LinearLayout, page: RecordTwo) {
-    //     val workouts = listOf<String>("Leg day", "Chest Day", "Arm Day", "Push-pull",
-    //         "Workout", "Workout", "Workout","Workout", "Workout", "Workout")
-    //     for (i in 1..data){
-    //         val button = Button(requireContext())
-    //         button.text = workouts[i-1]
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
 
-    //         val params = ViewGroup.LayoutParams(750, 250)
-    //         button.layoutParams = params
+class ImageListAdapter(private val imageList: List<Int>, private val listener: OnImageClickListener) : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
+    interface OnImageClickListener {
+        fun onImageClick(imageResId: Int)
+    }
 
-    //         container.addView(button)
+    class ImageViewHolder(val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root)
 
-    //         button.setOnClickListener {
-    //             parentFragmentManager.beginTransaction().apply {
-    //                 replace(R.id.frame, page)
-    //                 commit()
-    //             }
-    //         }
-    //     }
-    // }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
+    }
 
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.binding.imageView.setImageResource(imageList[position])
+        holder.itemView.setOnClickListener { listener.onImageClick(imageList[position]) }
+    }
+
+    override fun getItemCount() = imageList.size
 }
