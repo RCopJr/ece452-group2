@@ -2,20 +2,16 @@ package com.example.groupgains.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
-import com.example.groupgains.databinding.ActivityHomeBinding
 import com.example.groupgains.databinding.ActivityProfileBinding
 import com.example.groupgains.home.HomeActivity
-import com.example.groupgains.home.HomeViewModel
 import com.example.groupgains.ui.create.CreateActivity
 import com.example.groupgains.ui.record.RecordActivity
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -25,31 +21,15 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityProfileBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         viewModel.initializeActivity(this)
+
+        setContentView(binding.root)
 
         binding.btnLogout.setOnClickListener {
             //for logout
             viewModel.signOut(this)
         }
-
-        Log.d("TEST IN PROFILE ONE ONCREATE", "TEST")
-
-        val profile1 = ProfileOne()
-
-        // Get instance of FragmentManager
-        val fragmentManager = supportFragmentManager
-
-        // Begin transaction
-        val fragmentTransaction = fragmentManager.beginTransaction()
-
-        fragmentTransaction.add(R.id.frame, profile1)
-
-        // Commit transaction
-        fragmentTransaction.commit()
 
         binding.navView.selectedItemId = R.id.navigation_profile
 
@@ -70,5 +50,19 @@ class ProfileActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        val feedAdapter = ProfileFeedAdapter(emptyList(), viewModel)
+        val feedRecyclerView = findViewById<RecyclerView>(R.id.recycler)
+        feedRecyclerView.layoutManager = LinearLayoutManager(this)
+        feedRecyclerView.adapter = feedAdapter
+
+//      Setup observer for when posts to display changes
+        viewModel.sessionsData.observe(this, { sessions ->
+            feedAdapter.feedList = sessions
+            feedAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.loadSessionData(this)
+
     }
 }
