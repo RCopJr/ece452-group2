@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityHomeBinding
+import com.example.groupgains.notifications.NotificationsActivity
 import com.example.groupgains.ui.create.CreateActivity
 import com.example.groupgains.ui.record.RecordActivity
 import com.example.groupgains.ui.profile.ProfileActivity
@@ -53,6 +54,10 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_notification -> {
+                    startActivity(Intent(this, NotificationsActivity::class.java))
                     true
                 }
                 else -> false

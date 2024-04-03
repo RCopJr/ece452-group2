@@ -146,33 +146,47 @@ class HomeViewModel @Inject constructor(): ViewModel() {
             }
     }
 
-    fun updateFriendList(userRef: DocumentReference, friend_id: String, operation: String) {
-        val updateOperation = if (operation == "add") FieldValue.arrayUnion(friend_id) else FieldValue.arrayRemove(friend_id)
-        userRef.update("friends", updateOperation)
+    fun removeFromFriendList(userRef: DocumentReference, friend_id: String) {
+        userRef.update("friends", FieldValue.arrayRemove(friend_id))
             .addOnSuccessListener {
-                Log.d("Update Friend", "Friend ID $operation to/from friends list successfully")
+                Log.d("Update Friend", "Friend ID removed to/from friends list successfully")
             }
             .addOnFailureListener { e ->
-                Log.w("Update Friend", "Error $operation Friend ID to/from friends list", e)
+                Log.w("Update Friend", "Error removed Friend ID to/from friends list", e)
             }
     }
 
     fun handleFriendClick(friend_id: String) {
-        val userRef = db.collection("users").document(user_doc_id.value ?: "")
         val friendRef = db.collection("users").whereEqualTo("user_id", friend_id)
+        val userRef = db.collection("users").document(user_doc_id.value ?: "")
 
         userRef.get()
             .addOnSuccessListener { document ->
-                val friends = document.get("friends") as? List<*>
-                val operation = if (friends != null && friend_id in friends) "remove" else "add"
-                updateFriendList(userRef, friend_id, operation)
-
                 friendRef.get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            updateFriendList(document.reference, user_id.value ?: "", operation)
+                    .addOnSuccessListener { dfocuments ->
+                        val friends = document.get("friends") as? List<*>
+                        if (friends != null && friends.contains(friend_id)) {
+                            removeFromFriendList(userRef, friend_id)
+                            val friendDocument = dfocuments.documents.firstOrNull()
+                            if (friendDocument != null) {
+                                removeFromFriendList(db.collection("users").document(friendDocument.id), user_id.value.toString())
+                            }
+                        } else {
+                            val friendDocument = dfocuments.documents.firstOrNull()
+                            if (friendDocument != null && friendDocument.exists()) {
+                                // Retrieve the user object
+                                val user = friendDocument.toObject(User::class.java)
+                                user?.friendRequests?.add(user_id.value.toString())
+                                db.collection("users").document(friendDocument.id).set(user!!)
+                                    .addOnSuccessListener {
+                                    }
+                                    .addOnFailureListener { exception ->
+                                    }
+                            }
                         }
                     }
+                .addOnFailureListener { exception ->
+                }
             }
     }
 
