@@ -27,6 +27,53 @@ class ProfileViewModel : ViewModel() {
     val user_id = MutableLiveData<String>()
     val user_doc_id = MutableLiveData<String>()
 
+    fun loadUserData(userID: String){
+        // user_id.postValue(userID)
+        val userRef = db.collection("users")
+        userRef.whereEqualTo("user_id", userID)
+        .get()
+        .addOnSuccessListener { documents ->
+            val userDocument = documents.documents.firstOrNull()
+            if (userDocument != null) {
+                Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
+                val userData = userDocument.toObject(User::class.java)
+                user.postValue(userData)
+            } else {
+                Log.d("Load User", "No document found for userID: $userID")
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.w("Load User", "Error getting documents: ", exception)
+        }
+    }
+
+    public fun updateNameInDb(userName: String) {
+        println("about to update username in db ${userName}")
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            db.collection("users")
+            .whereEqualTo("user_id", userId)
+            .get()
+            .addOnSuccessListener {
+                documents ->
+                val userDocument = documents.documents.firstOrNull()
+
+                val id = userDocument!!.id;
+                db.collection("users").document(id).update(mapOf(
+                    "userName" to userName
+                ))
+                // Document updated successfully
+                // You can handle success here if needed
+                println("update success")
+            }
+            .addOnFailureListener { e ->
+                // Error handling
+                println("Error updating username: $e")
+            }
+        }
+    }
+
+
     fun initializeActivity(context: Activity){
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -34,33 +81,13 @@ class ProfileViewModel : ViewModel() {
         if (auth.currentUser == null) {
             goToLogin(context)
         }
+
+        loadUserData(auth.currentUser!!.uid)
     }
 
     fun signOut(context: Activity){
         auth.signOut()
         goToLogin(context)
-    }
-
-    fun loadUserData(userID: String){
-        user_id.postValue(userID)
-        val userRef = db.collection("users")
-        userRef.whereEqualTo("user_id", userID)
-            .get()
-            .addOnSuccessListener { documents ->
-                val userDocument = documents.documents.firstOrNull()
-                if (userDocument != null) {
-                    Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
-                    val userData = userDocument.toObject(User::class.java)
-                    user.postValue(userData)
-                    user_doc_id.postValue(userDocument.id)
-                  
-                } else {
-                    Log.d("Load User", "No document found for userID: $userID")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Load User", "Error getting documents: ", exception)
-            }
     }
 
     private fun goToLogin(context: Activity) {
@@ -69,7 +96,6 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun loadSessionData(context: Activity) {
-        loadUserData(auth.currentUser!!.uid)
 
         val sessionsQuery = db.collection("sessions")
             .whereEqualTo("user_id", auth.currentUser!!.uid)

@@ -12,19 +12,45 @@ import com.example.groupgains.ui.record.RecordActivity
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.text.TextWatcher
+import android.text.Editable
+import android.view.View
 
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
 
     private val viewModel: ProfileViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         viewModel.initializeActivity(this)
 
         setContentView(binding.root)
+
+        //get the username
+        viewModel.user.observe(this, { user -> 
+            val userName = user.userName
+            Log.d("Load UserName", "${userName}")
+            Log.d("Load UserName model", "${viewModel}")
+            Log.d("Load UserName model", "${viewModel.user}")
+            Log.d("Load UserName model value", "${viewModel.user.value}")
+            binding.textEdit1.setText(userName);
+        })
+        
+        binding.textEdit1.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                viewModel.updateNameInDb(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                //
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //
+            }
+        })
 
         binding.btnLogout.setOnClickListener {
             //for logout
