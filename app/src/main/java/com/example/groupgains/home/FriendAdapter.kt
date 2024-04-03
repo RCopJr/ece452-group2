@@ -23,7 +23,7 @@ class FriendAdapter(var friendList: List<User>, private val viewModel: HomeViewM
         val friendName: TextView = itemView.findViewById(R.id.friendName)
         val friendButton: Button = itemView.findViewById(R.id.friendButton)
         var friendId: String = ""
-        var buttonSet: Boolean = false
+        var buttonSet: Int = 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
@@ -32,13 +32,18 @@ class FriendAdapter(var friendList: List<User>, private val viewModel: HomeViewM
     }
 
     fun displayButton(holder: FriendViewHolder) {
-        if (holder.buttonSet) {
-            holder.friendButton.text = "Unfollow"
+        if (holder.buttonSet == 1) {
+            holder.friendButton.text = "Requested"
             holder.friendButton.setBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
             )
-        } else {
-            holder.friendButton.text = "Follow"
+        } else if (holder.buttonSet == 0) {
+            holder.friendButton.text = "Add Friend"
+            holder.friendButton.setBackgroundColor(
+                ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
+            )
+        } else if (holder.buttonSet == 2) {
+            holder.friendButton.text = "Unfriend"
             holder.friendButton.setBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
             )
@@ -53,12 +58,19 @@ class FriendAdapter(var friendList: List<User>, private val viewModel: HomeViewM
         val userId = viewModel.user_id.value ?: ""
         val friendsString = friend.friends.toString()
 
-        holder.buttonSet = friendsString.contains(userId)
+        if (friendsString.contains(userId) == true) {
+            holder.buttonSet = 2
+        }
         displayButton(holder)
 
         holder.friendButton.setOnClickListener {
             viewModel.handleFriendClick(holder.friendId)
-            holder.buttonSet = !holder.buttonSet
+            if (holder.buttonSet == 2) {
+//                viewModel.loadSessionData()loadSessionData
+                holder.buttonSet = 0
+            } else if (holder.buttonSet == 0){
+                holder.buttonSet = 1
+            }
             displayButton(holder)
         }
 

@@ -13,6 +13,7 @@ import com.example.groupgains.databinding.ActivityHomeBinding
 import com.example.groupgains.databinding.ActivityRecordBinding
 import com.example.groupgains.home.HomeActivity
 import com.example.groupgains.home.HomeViewModel
+import com.example.groupgains.notifications.NotificationsActivity
 import com.example.groupgains.ui.create.CreateActivity
 import com.example.groupgains.ui.profile.ProfileActivity
 
@@ -60,6 +61,10 @@ class RecordActivity : AppCompatActivity() {
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_notification -> {
+                    startActivity(Intent(this, NotificationsActivity::class.java))
                     true
                 }
                 else -> false

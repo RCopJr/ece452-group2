@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.groupgains.R
 import com.example.groupgains.databinding.ActivityCreateBinding
 import com.example.groupgains.home.HomeActivity
+import com.example.groupgains.notifications.NotificationsActivity
 import com.example.groupgains.ui.record.CreateOne
 import com.example.groupgains.ui.record.RecordActivity
 import com.example.groupgains.ui.record.RecordOne
@@ -54,6 +55,10 @@ class CreateActivity: AppCompatActivity() {
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                R.id.navigation_notification -> {
+                    startActivity(Intent(this, NotificationsActivity::class.java))
                     true
                 }
                 else -> false

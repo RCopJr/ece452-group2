@@ -28,10 +28,6 @@ import javax.inject.Inject
 
 class CreateViewModel @Inject constructor(): ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is create Fragment"
-    }
-
     val workoutIDLiveData: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
