@@ -6,11 +6,13 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.example.groupgains.data.UserColors
 import com.example.groupgains.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(): ViewModel() {
@@ -65,11 +67,17 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     private fun addUserToCollection(userID: String, email: String) {
         val userRef = db.collection("users")
 
+        // Generate a random profile color
+        val user_colors = UserColors()
+        val random_idx = Random.nextInt(0, user_colors.colors.size)
+        val random_color: Int = user_colors.colors[random_idx]
+
         // Create a new user with a first and last name, and the user ID
         val newUser = hashMapOf(
             "userName" to email,
             "user_id" to userID,
-            "friends" to emptyList<String>()
+            "friends" to emptyList<String>(),
+            "color" to random_color
         )
 
         // Add a new document with an auto-generated ID
