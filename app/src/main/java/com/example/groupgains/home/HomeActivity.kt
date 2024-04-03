@@ -77,7 +77,7 @@ class HomeActivity @Inject constructor(): AppCompatActivity() {
         })
 
         // Initial load of workout data
-        viewModel.loadSessionData(this)
+        viewModel.loadSessionData()
 
         val searchView: SearchView = findViewById(R.id.searchView)
         val layoutToHide: ConstraintLayout = findViewById(R.id.layoutToHide)

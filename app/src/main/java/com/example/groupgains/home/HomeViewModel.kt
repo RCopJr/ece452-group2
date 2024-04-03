@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
             }
     }
 
-    fun loadSessionData(context: Activity) {
+    fun loadSessionData() {
         db.collection("users").whereEqualTo("user_id", auth.currentUser!!.uid)
             .get()
             .addOnSuccessListener { userDocument ->

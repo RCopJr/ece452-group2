@@ -17,28 +17,31 @@ class FriendAdapterNotifs(var friendList: List<User>, private val viewModel: Not
     class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profileImage: CircleImageView = itemView.findViewById(R.id.profileImage)
         val friendName: TextView = itemView.findViewById(R.id.friendName)
-        val friendButton: Button = itemView.findViewById(R.id.friendButton)
+        val addButton: Button = itemView.findViewById(R.id.addButton)
+        val rejectButton: Button = itemView.findViewById(R.id.rejectButton)
         var friendId: String = ""
         var buttonSet: Boolean = false
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.friend_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.friend_request_card, parent, false)
         return FriendViewHolder(view)
     }
 
     fun displayButton(holder: FriendViewHolder) {
-        if (holder.buttonSet) {
-            holder.friendButton.text = "Unfriend"
-            holder.friendButton.setBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
-            )
-        } else {
-            holder.friendButton.text = "Add Friend"
-            holder.friendButton.setBackgroundColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
-            )
-        }
+//        if (holder.buttonSet) {
+//            holder.friendButton.text = "Unfriend"
+//            holder.friendButton.setBackgroundColor(
+//                ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
+//            )
+//        } else {
+//            holder.friendButton.text = "Add Friend"
+//            holder.friendButton.setBackgroundColor(
+//                ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
+//            )
+//        }
     }
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
@@ -52,10 +55,14 @@ class FriendAdapterNotifs(var friendList: List<User>, private val viewModel: Not
         holder.buttonSet = friendsString.contains(userId)
         displayButton(holder)
 
-        holder.friendButton.setOnClickListener {
-            viewModel.handleFriendClick(holder.friendId)
-            holder.buttonSet = viewModel.userLiveData.value?.friends?.contains(holder.friendId) == true
-            displayButton(holder)
+        holder.addButton.setOnClickListener {
+            viewModel.handleFriendAdd(holder.friendId)
+            holder.itemView.visibility = View.GONE;
+        }
+
+        holder.rejectButton.setOnClickListener {
+            viewModel.handleFriendReject(holder.friendId)
+            holder.itemView.visibility = View.GONE;
         }
 
     }

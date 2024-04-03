@@ -96,7 +96,17 @@ class NotificationsViewModel : ViewModel() {
             }
     }
 
-    fun updateFriendList(userRef: DocumentReference, friend_id: String) {
+    fun removeFromFriendRequestList(userRef: DocumentReference, friend_id: String) {
+        userRef.update("friendRequests", FieldValue.arrayRemove(friend_id))
+            .addOnSuccessListener {
+                Log.d("Update Friend", "Friend ID removed to/from friends list successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Update Friend", "Error removed Friend ID to/from friends list", e)
+            }
+    }
+
+    fun addToFriendList(userRef: DocumentReference, friend_id: String) {
         userRef.update("friends", FieldValue.arrayUnion(friend_id))
             .addOnSuccessListener {
                 Log.d("Update Friend", "Friend ID add to/from friends list successfully")
@@ -107,21 +117,29 @@ class NotificationsViewModel : ViewModel() {
             }
     }
 
-    fun handleFriendClick(friend_id: String) {
+    fun handleFriendAdd(friend_id: String) {
         val userRef = db.collection("users").document(user_doc_id.value ?: "")
         val friendRef = db.collection("users").whereEqualTo("user_id", friend_id)
 
         userRef.get()
             .addOnSuccessListener { document ->
-                val friends = document.get("friends") as? List<*>
-                updateFriendList(userRef, friend_id)
+                addToFriendList(userRef, friend_id)
 
                 friendRef.get()
                     .addOnSuccessListener { documentsAdd ->
                         for (document in documentsAdd) {
-                            updateFriendList(document.reference, user_id.value ?: "")
+                            addToFriendList(document.reference, user_id.value ?: "")
                         }
                     }
+            }
+    }
+
+    fun handleFriendReject(friend_id: String) {
+        val userRef = db.collection("users").document(user_doc_id.value ?: "")
+
+        userRef.get()
+            .addOnSuccessListener { document ->
+                removeFromFriendRequestList(userRef, friend_id)
             }
     }
 
