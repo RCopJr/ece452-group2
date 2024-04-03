@@ -29,12 +29,12 @@ class FriendAdapterNotifs(var friendList: List<User>, private val viewModel: Not
 
     fun displayButton(holder: FriendViewHolder) {
         if (holder.buttonSet) {
-            holder.friendButton.text = "Unfollow"
+            holder.friendButton.text = "Unfriend"
             holder.friendButton.setBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
             )
         } else {
-            holder.friendButton.text = "Follow"
+            holder.friendButton.text = "Add Friend"
             holder.friendButton.setBackgroundColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.teal_500)
             )
@@ -54,7 +54,7 @@ class FriendAdapterNotifs(var friendList: List<User>, private val viewModel: Not
 
         holder.friendButton.setOnClickListener {
             viewModel.handleFriendClick(holder.friendId)
-            holder.buttonSet = !holder.buttonSet
+            holder.buttonSet = viewModel.userLiveData.value?.friends?.contains(holder.friendId) == true
             displayButton(holder)
         }
 

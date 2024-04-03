@@ -22,6 +22,7 @@ class NotificationsViewModel : ViewModel() {
     val friendRequestsLiveData: MutableLiveData<List<User>> = MutableLiveData()
     val user_doc_id = MutableLiveData<String>()
     val user_id = MutableLiveData<String>()
+    val userLiveData = MutableLiveData<User?>()
 
     fun initializeActivity(context: Activity){
         auth = FirebaseAuth.getInstance()
@@ -44,6 +45,8 @@ class NotificationsViewModel : ViewModel() {
                 if (userDocument != null) {
                     Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
                     user_doc_id.postValue(userDocument.id)
+                    val user = userDocument.toObject(User::class.java)
+                    userLiveData.value = user
                 } else {
                     Log.d("Load User", "No document found for userID: $userID")
                 }
