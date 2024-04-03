@@ -13,6 +13,7 @@ import com.example.groupgains.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.example.groupgains.data.User
 
 class ProfileViewModel : ViewModel() {
 
@@ -20,17 +21,70 @@ class ProfileViewModel : ViewModel() {
     lateinit var auth: FirebaseAuth
 
     val workoutsLiveData: MutableLiveData<List<Workout>> = MutableLiveData()
+    
+    val user = MutableLiveData<User>()
 
 
     fun initializeActivity(context: Activity){
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+
         if (auth.currentUser == null) {
             goToLogin(context)
         }
-        loadWorkoutData(auth.currentUser!!.uid)
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            loadWorkoutData(userId)
             Log.d("TEST IN VIEW MODAL", "TEST")
+        }
+        loadUserData(auth.currentUser!!.uid)
+    }
+
+    fun loadUserData(userID: String){
+        // user_id.postValue(userID)
+        val userRef = db.collection("users")
+        userRef.whereEqualTo("user_id", userID)
+        .get()
+        .addOnSuccessListener { documents ->
+            val userDocument = documents.documents.firstOrNull()
+            if (userDocument != null) {
+                Log.d("Load User", "${userDocument.id} => ${userDocument.data}")
+                val userData = userDocument.toObject(User::class.java)
+                user.postValue(userData)
+            } else {
+                Log.d("Load User", "No document found for userID: $userID")
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.w("Load User", "Error getting documents: ", exception)
+        }
+    }
+
+    public fun updateNameInDb(userName: String) {
+        println("about to update username in db ${userName}")
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            db.collection("users")
+            .whereEqualTo("user_id", userId)
+            .get()
+            .addOnSuccessListener {
+                documents ->
+                val userDocument = documents.documents.firstOrNull()
+
+                val id = userDocument!!.id;
+                db.collection("users").document(id).update(mapOf(
+                    "userName" to userName
+                ))
+                // Document updated successfully
+                // You can handle success here if needed
+                println("update success")
+            }
+            .addOnFailureListener { e ->
+                // Error handling
+                println("Error updating username: $e")
+            }
+        }
     }
 
     fun signOut(context: Activity){
